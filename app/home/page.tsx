@@ -24,7 +24,6 @@ const sampleRecipes = [
 ];
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("Tüm Tarifler");
 
   return (
     <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
@@ -35,10 +34,7 @@ export default function Home() {
       <main className="flex-1 px-5 pb-24 overflow-y-auto">
         {/* Category Selector */}
         <div className="flex items-center gap-2 mt-4 mb-4">
-          <h2 className="text-2xl font-bold text-gray-900">{selectedCategory}</h2>
-          <button className="text-gray-600 hover:text-gray-800 transition-colors">
-            <CaretDown size={20} />
-          </button>
+          <h2 className="text-2xl font-bold text-gray-900">Tüm Tarifler</h2>
         </div>
 
         {/* Recipe Grid */}

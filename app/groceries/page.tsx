@@ -14,7 +14,7 @@ import {
 const groceryItems = [
   {
     id: 1,
-    category: "MEAT & SEAFOOD",
+    category: "ET & DENİZ ÜRÜNLERİ",
     items: [
       { id: 1, name: "1 Kilo Tavuk", checked: false },
     ],
@@ -37,7 +37,7 @@ export default function GroceriesPage() {
     <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
       {/* Header */}
       <header className="flex items-center justify-between px-5 py-4 bg-[#FAF9F7]">
-        <h1 className="text-2xl font-bold text-gray-900">Grocery List</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Alışveriş Listesi</h1>
         <div className="flex items-center gap-2">
           <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <ShareNetwork size={24} color="#374151" />
@@ -50,9 +50,9 @@ export default function GroceriesPage() {
 
       {/* Item Count & Filter */}
       <div className="flex items-center justify-between px-5 py-3">
-        <span className="text-gray-600">{totalItems} item</span>
+        <span className="text-gray-600">{totalItems} ürün</span>
         <button className="flex items-center gap-1 bg-gray-200 px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-300 transition-colors">
-          Aisle
+          Reyonlar
           <CaretDown size={16} />
         </button>
       </div>
@@ -102,7 +102,7 @@ export default function GroceriesPage() {
       </main>
 
       {/* Floating Action Button */}
-      <button className="fixed right-5 bottom-24 w-14 h-14 bg-[#FF6B35] rounded-full shadow-lg flex items-center justify-center hover:bg-[#e55a2b] transition-colors hover:scale-105 active:scale-95">
+      <button className="fixed right-5 bottom-30 w-14 h-14 bg-[#FF6B35] rounded-full shadow-lg flex items-center justify-center hover:bg-[#e55a2b] transition-colors hover:scale-105 active:scale-95">
         <Plus size={28} weight="bold" color="white" />
       </button>
 

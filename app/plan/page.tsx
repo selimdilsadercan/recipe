@@ -10,7 +10,7 @@ import {
 } from "@phosphor-icons/react";
 
 // Gün isimleri
-const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const dayNames = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
 
 export default function PlanPage() {
   const [currentWeekStart, setCurrentWeekStart] = useState(() => {
@@ -55,7 +55,7 @@ export default function PlanPage() {
     <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
       {/* Header */}
       <header className="flex items-center justify-between px-5 py-4 bg-[#FAF9F7]">
-        <h1 className="text-2xl font-bold text-gray-900">My Meal Plan</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Haftalık Plan</h1>
         <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
           <DotsThreeVertical size={24} weight="bold" color="#374151" />
         </button>
@@ -93,14 +93,14 @@ export default function PlanPage() {
                   <Plus size={20} color="#6B7280" />
                 </button>
               </div>
-              <p className="text-sm text-gray-600">No recipes yet</p>
+              <p className="text-sm text-gray-600">Henüz tarif eklenmedi</p>
             </div>
           ))}
         </div>
       </main>
 
       {/* Bottom Navigation */}
-      <AppBar activePage={ActivePage.MEAL_PLAN} />
+      <AppBar activePage={ActivePage.PLAN} />
     </div>
   );
 }

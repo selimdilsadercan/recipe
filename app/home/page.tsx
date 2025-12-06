@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Header from "@/components/Header";
 import AppBar, { ActivePage } from "@/components/AppBar";
 import { 
-  Rocket,
-  CaretRight,
   CaretDown,
   Image,
   Plus
@@ -25,28 +24,17 @@ const sampleRecipes = [
 ];
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("All Recipes");
+  const [selectedCategory, setSelectedCategory] = useState("Tüm Tarifler");
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
-      {/* Header + Bottom Navigation */}
-      <AppBar activePage={ActivePage.COOKBOOKS} showHeader={true} />
+    <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
+      {/* Header - Üst kısım (logo + giriş) */}
+      <Header />
 
       {/* Main Content */}
       <main className="flex-1 px-5 pb-24 overflow-y-auto">
-        {/* Import Guide Banner */}
-        <button className="w-full flex items-center justify-between px-4 py-3 bg-white rounded-full border border-gray-200 mt-4 hover:border-gray-300 transition-colors">
-          <div className="flex items-center gap-3">
-            <Rocket size={20} weight="fill" color="#FF6B35" />
-            <span className="text-gray-700 font-medium">
-              Import guides by platform
-            </span>
-          </div>
-          <CaretRight size={20} color="#6B7280" />
-        </button>
-
         {/* Category Selector */}
-        <div className="flex items-center gap-2 mt-8 mb-4">
+        <div className="flex items-center gap-2 mt-4 mb-4">
           <h2 className="text-2xl font-bold text-gray-900">{selectedCategory}</h2>
           <button className="text-gray-600 hover:text-gray-800 transition-colors">
             <CaretDown size={20} />
@@ -84,9 +72,12 @@ export default function Home() {
       </main>
 
       {/* Floating Action Button */}
-      <button className="fixed right-5 bottom-24 w-14 h-14 bg-[#FF6B35] rounded-full shadow-lg flex items-center justify-center hover:bg-[#e55a2b] transition-colors hover:scale-105 active:scale-95">
+      <button className="fixed right-5 bottom-30 w-14 h-14 bg-[#FF6B35] rounded-full shadow-lg flex items-center justify-center hover:bg-[#e55a2b] transition-colors hover:scale-105 active:scale-95">
         <Plus size={28} weight="bold" color="white" />
       </button>
+
+      {/* AppBar - Alt kısım (navigation) */}
+      <AppBar activePage={ActivePage.COOKBOOKS} />
     </div>
   );
 }

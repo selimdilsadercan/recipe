@@ -9,7 +9,7 @@ export default function ProfilePage() {
     <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
       {/* Header */}
       <header className="flex items-center justify-between px-5 py-4 bg-[#FAF9F7]">
-        <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Profil</h1>
       </header>
 
       {/* Main Content */}

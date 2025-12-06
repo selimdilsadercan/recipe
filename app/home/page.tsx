@@ -1,0 +1,92 @@
+"use client";
+
+import { useState } from "react";
+import AppBar, { ActivePage } from "@/components/AppBar";
+import { 
+  Rocket,
+  CaretRight,
+  CaretDown,
+  Image,
+  Plus
+} from "@phosphor-icons/react";
+
+// Örnek tarif verileri
+const sampleRecipes = [
+  {
+    id: 1,
+    title: "Chedarlı Tiftiklenmiş BBQ Tavuk",
+    image: null,
+  },
+  {
+    id: 2,
+    title: "Kremalı Tavuklu Makarna",
+    image: null,
+  },
+];
+
+export default function Home() {
+  const [selectedCategory, setSelectedCategory] = useState("All Recipes");
+
+  return (
+    <div className="flex min-h-screen flex-col bg-gray-50">
+      {/* Header + Bottom Navigation */}
+      <AppBar activePage={ActivePage.COOKBOOKS} showHeader={true} />
+
+      {/* Main Content */}
+      <main className="flex-1 px-5 pb-24 overflow-y-auto">
+        {/* Import Guide Banner */}
+        <button className="w-full flex items-center justify-between px-4 py-3 bg-white rounded-full border border-gray-200 mt-4 hover:border-gray-300 transition-colors">
+          <div className="flex items-center gap-3">
+            <Rocket size={20} weight="fill" color="#FF6B35" />
+            <span className="text-gray-700 font-medium">
+              Import guides by platform
+            </span>
+          </div>
+          <CaretRight size={20} color="#6B7280" />
+        </button>
+
+        {/* Category Selector */}
+        <div className="flex items-center gap-2 mt-8 mb-4">
+          <h2 className="text-2xl font-bold text-gray-900">{selectedCategory}</h2>
+          <button className="text-gray-600 hover:text-gray-800 transition-colors">
+            <CaretDown size={20} />
+          </button>
+        </div>
+
+        {/* Recipe Grid */}
+        <div className="grid grid-cols-2 gap-4">
+          {sampleRecipes.map((recipe) => (
+            <div
+              key={recipe.id}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
+            >
+              {/* Recipe Image */}
+              <div className="aspect-[4/3] bg-gray-100 flex items-center justify-center">
+                {recipe.image ? (
+                  <img
+                    src={recipe.image}
+                    alt={recipe.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Image size={48} color="#9CA3AF" />
+                )}
+              </div>
+              {/* Recipe Title */}
+              <div className="p-3">
+                <h3 className="text-sm font-medium text-gray-900 line-clamp-2 leading-tight">
+                  {recipe.title}
+                </h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
+
+      {/* Floating Action Button */}
+      <button className="fixed right-5 bottom-24 w-14 h-14 bg-[#FF6B35] rounded-full shadow-lg flex items-center justify-center hover:bg-[#e55a2b] transition-colors hover:scale-105 active:scale-95">
+        <Plus size={28} weight="bold" color="white" />
+      </button>
+    </div>
+  );
+}

@@ -7,28 +7,61 @@ import {
   Image,
   Plus
 } from "@phosphor-icons/react";
-import { getAllRecipes, Recipe } from "@/lib/recipe-service";
+import { getAllRecipes, createNewRecipe, Recipe } from "@/lib/recipe-service";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 export default function Home() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Drawer state
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [newRecipeTitle, setNewRecipeTitle] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
 
   useEffect(() => {
-    async function fetchRecipes() {
-      try {
-        const data = await getAllRecipes();
-        setRecipes(data);
-      } catch (err) {
-        setError("Tarifler yüklenirken hata oluştu");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     fetchRecipes();
   }, []);
+
+  async function fetchRecipes() {
+    try {
+      setLoading(true);
+      const data = await getAllRecipes();
+      setRecipes(data);
+    } catch (err) {
+      setError("Tarifler yüklenirken hata oluştu");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleCreateRecipe() {
+    if (!newRecipeTitle.trim()) return;
+    
+    try {
+      setIsCreating(true);
+      await createNewRecipe(newRecipeTitle.trim());
+      setNewRecipeTitle("");
+      setDrawerOpen(false);
+      // Listeyi yenile
+      fetchRecipes();
+    } catch (err) {
+      console.error("Tarif oluşturma hatası:", err);
+    } finally {
+      setIsCreating(false);
+    }
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
@@ -88,10 +121,45 @@ export default function Home() {
         )}
       </main>
 
-      {/* Floating Action Button */}
-      <button className="fixed right-5 bottom-30 w-14 h-14 bg-[#FF6B35] rounded-full shadow-lg flex items-center justify-center hover:bg-[#e55a2b] transition-colors hover:scale-105 active:scale-95">
-        <Plus size={28} weight="bold" color="white" />
-      </button>
+      {/* Floating Action Button with Drawer */}
+      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+        <DrawerTrigger asChild>
+          <button className="fixed right-5 bottom-30 w-14 h-14 bg-[#FF6B35] rounded-full shadow-lg flex items-center justify-center hover:bg-[#e55a2b] transition-colors hover:scale-105 active:scale-95 z-50">
+            <Plus size={28} weight="bold" color="white" />
+          </button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Yeni Tarif Ekle</DrawerTitle>
+            <DrawerDescription>
+              Tarifinize bir isim verin.
+            </DrawerDescription>
+          </DrawerHeader>
+          <div className="p-4 space-y-4">
+            <input
+              type="text"
+              placeholder="Tarif adı"
+              value={newRecipeTitle}
+              onChange={(e) => setNewRecipeTitle(e.target.value)}
+              className="w-full py-3 px-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+            />
+            <button 
+              onClick={handleCreateRecipe}
+              disabled={!newRecipeTitle.trim() || isCreating}
+              className="w-full py-3 px-4 bg-[#FF6B35] text-white rounded-xl font-medium hover:bg-[#e55a2b] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isCreating ? "Oluşturuluyor..." : "Tarif Oluştur"}
+            </button>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <button className="w-full py-3 px-4 border border-gray-200 text-gray-600 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+                İptal
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
       {/* AppBar - Alt kısım (navigation) */}
       <AppBar activePage={ActivePage.COOKBOOKS} />

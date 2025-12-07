@@ -1,0 +1,10 @@
+{
+  "search.exclude": {
+    "**/node_modules": true
+  },
+  "typescript.tsdk": "frontend/node_modules/typescript/lib",
+  "files.watcherExclude": {
+    "**/node_modules/**": true
+  },
+  "problems.decorations.enabled": false
+}

@@ -1,6 +1,10 @@
-"use server";
+/**
+ * Create Recipe API Service
+ * Client-side API calls for recipe creation
+ * (Static export compatible - no server actions)
+ */
 
-import { createServerClient } from "@/lib/api";
+import { createBrowserClient } from "@/lib/api";
 import { isUnauthenticatedError, getErrorMessage } from "@/lib/api-error-handler";
 import type { lib } from "@/lib/client";
 
@@ -55,7 +59,7 @@ export async function createRecipe(
   instructions?: ParsedInstruction[] | null
 ): Promise<ActionResponse<lib.Recipe>> {
   try {
-    const client = await createServerClient();
+    const client = createBrowserClient();
     
     // Tipleri dönüştür
     const convertedIngredients = ingredients?.map(convertIngredient);
@@ -91,7 +95,7 @@ export async function getOrCreateUserAction(
   clerkId: string
 ): Promise<ActionResponse<lib.User & { isNewUser?: boolean }>> {
   try {
-    const client = await createServerClient();
+    const client = createBrowserClient();
     
     const response = await client.identity.getOrCreateUser({ clerkId });
     

@@ -52,8 +52,8 @@ pnpm-debug.log*
 # Turbo
 .turbo
 
-# pnpm
-pnpm-lock.yaml
+# Bun
+# Note: bun.lock is tracked for reproducible builds
 
 # Vercel
 .vercel

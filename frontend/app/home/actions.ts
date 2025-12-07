@@ -1,6 +1,10 @@
-"use server";
+/**
+ * Home API Service
+ * Client-side API calls for home page operations
+ * (Static export compatible - no server actions)
+ */
 
-import { createServerClient } from "@/lib/api";
+import { createBrowserClient } from "@/lib/api";
 import { isUnauthenticatedError, getErrorMessage } from "@/lib/api-error-handler";
 import type { lib } from "@/lib/client";
 
@@ -17,7 +21,7 @@ export async function getUserRecipesAction(
   userId: string
 ): Promise<ActionResponse<lib.RecipeSummary[]>> {
   try {
-    const client = await createServerClient();
+    const client = createBrowserClient();
     
     const response = await client.recipe.getUserRecipes(userId);
     
@@ -44,7 +48,7 @@ export async function getOrCreateUserAction(
   clerkId: string
 ): Promise<ActionResponse<lib.User & { isNewUser?: boolean }>> {
   try {
-    const client = await createServerClient();
+    const client = createBrowserClient();
     
     const response = await client.identity.getOrCreateUser({ clerkId });
     

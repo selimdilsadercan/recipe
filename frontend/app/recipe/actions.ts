@@ -1,6 +1,10 @@
-"use server";
+/**
+ * Recipe API Service
+ * Client-side API calls for recipe operations
+ * (Static export compatible - no server actions)
+ */
 
-import { createServerClient } from "@/lib/api";
+import { createBrowserClient } from "@/lib/api";
 import { isUnauthenticatedError, getErrorMessage } from "@/lib/api-error-handler";
 import type { lib } from "@/lib/client";
 
@@ -17,7 +21,7 @@ export async function getRecipeByIdAction(
   recipeId: string
 ): Promise<ActionResponse<lib.Recipe>> {
   try {
-    const client = await createServerClient();
+    const client = createBrowserClient();
     
     const response = await client.recipe.getRecipeById(recipeId);
     

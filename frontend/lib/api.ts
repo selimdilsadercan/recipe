@@ -7,7 +7,7 @@ import Client, { Environment, Local } from "./client";
 
 // Environment'a göre doğru baseURL seçimi
 function getBaseURL() {
-  const environment = process.env.ENCORE_ENVIRONMENT || "local";
+  const environment = process.env.ENCORE_ENVIRONMENT || "staging";
   
   if (environment === "local") {
     return Local;

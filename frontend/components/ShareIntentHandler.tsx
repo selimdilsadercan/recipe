@@ -34,12 +34,20 @@ export function ShareIntentHandler({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   
   const [debugInfo, setDebugInfo] = useState<DebugInfo>({
-    timestamp: new Date().toISOString(),
+    timestamp: "", // Empty to avoid hydration mismatch
     shareData: null,
     rawJson: null,
     logs: [],
   });
-  const [showDebug, setShowDebug] = useState(true);
+
+  // Set timestamp on client side only to avoid hydration errors
+  useEffect(() => {
+    setDebugInfo(prev => ({
+      ...prev,
+      timestamp: new Date().toISOString(),
+    }));
+  }, []);
+  const [showDebug, setShowDebug] = useState(false);
 
   const addLog = useCallback((message: string) => {
     const timestamp = new Date().toLocaleTimeString();
@@ -172,7 +180,7 @@ export function ShareIntentHandler({ children }: { children: React.ReactNode }) 
               <p className="text-white text-sm">
                 isNative: <span className={isNative ? 'text-green-400' : 'text-red-400'}>{String(isNative)}</span>
               </p>
-              <p className="text-gray-500 text-xs mt-1">{debugInfo.timestamp}</p>
+              <p className="text-gray-500 text-xs mt-1">{debugInfo.timestamp || "Yükleniyor..."}</p>
             </div>
             
             {/* Share Data Summary */}

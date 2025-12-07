@@ -1,0 +1,26 @@
+{
+  "name": "@recipe/backend",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Recipe Backend - Encore",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "encore run",
+    "test": "vitest",
+    "generate": "encore gen client -e staging --output=./client.ts",
+    "clean": "rimraf node_modules .encore"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2",
+    "vitest": "^1.5.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.86.2",
+    "encore.dev": "^1.51.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}

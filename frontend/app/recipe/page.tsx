@@ -2,8 +2,20 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, PencilSimple, DotsThreeVertical, Image } from "@phosphor-icons/react";
-import { getRecipeByIdAction } from "./actions";
+import { ArrowLeft, PencilSimple, DotsThreeVertical, Trash } from "@phosphor-icons/react";
+import { useUser } from "@clerk/clerk-react";
+import { getRecipeByIdAction, deleteRecipeAction, getOrCreateUserAction } from "./actions";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import type { lib } from "@/lib/client";
 import type { Ingredient, Instruction } from "@/lib/text-to-recipe";
 
@@ -13,11 +25,15 @@ function RecipeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const recipeId = searchParams.get("id");
+  const { user } = useUser();
 
   const [recipe, setRecipe] = useState<lib.Recipe | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("ingredients");
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (recipeId) {
@@ -45,6 +61,38 @@ function RecipeContent() {
       setError("Tarif yüklenirken hata oluştu");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleDeleteRecipe() {
+    if (!recipeId || !user?.id) return;
+
+    try {
+      setIsDeleting(true);
+      
+      // Önce Clerk ID ile Supabase user ID'sini al
+      const userResult = await getOrCreateUserAction(user.id);
+      if (!userResult.data) {
+        setError(userResult.error || "Kullanıcı bilgisi alınamadı");
+        setIsDeleteDialogOpen(false);
+        return;
+      }
+      
+      const result = await deleteRecipeAction(recipeId, userResult.data.id);
+      
+      if (result.data) {
+        // Başarılı silme - ana sayfaya yönlendir
+        router.push("/home");
+      } else {
+        setError(result.error || "Tarif silinemedi");
+        setIsDeleteDialogOpen(false);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Tarif silinirken hata oluştu");
+      setIsDeleteDialogOpen(false);
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -85,14 +133,57 @@ function RecipeContent() {
           <ArrowLeft size={24} color="#374151" />
         </button>
         <div className="flex items-center gap-2">
-          <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <button 
+            onClick={() => router.push(`/edit-recipe?id=${recipeId}`)}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
             <PencilSimple size={24} color="#374151" />
           </button>
-          <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <DotsThreeVertical size={24} color="#374151" />
-          </button>
+          
+          {/* More Button with Popover */}
+          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+            <PopoverTrigger asChild>
+              <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <DotsThreeVertical size={24} color="#374151" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="end" className="w-48 p-1">
+              <button
+                onClick={() => {
+                  setIsPopoverOpen(false);
+                  setIsDeleteDialogOpen(true);
+                }}
+                className="flex items-center gap-3 w-full px-3 py-2.5 text-left text-red-600 hover:bg-red-50 rounded-md transition-colors"
+              >
+                <Trash size={20} />
+                <span className="font-medium">Tarifi Sil</span>
+              </button>
+            </PopoverContent>
+          </Popover>
         </div>
       </header>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Tarifi silmek istediğinize emin misiniz?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Bu işlem geri alınamaz. Tarif kalıcı olarak silinecektir.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Vazgeç</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteRecipe}
+              disabled={isDeleting}
+              className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
+            >
+              {isDeleting ? "Siliniyor..." : "Evet, Sil"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Recipe Image - sadece varsa göster */}
       {recipe.image_url && (
@@ -141,8 +232,8 @@ function RecipeContent() {
             {ingredients.length === 0 ? (
               <p className="text-gray-500 text-center py-8">Malzeme bilgisi bulunmuyor</p>
             ) : (
-              ingredients.map((ingredient) => (
-                <div key={ingredient.index} className="flex items-start gap-3 py-2">
+              ingredients.map((ingredient, idx) => (
+                <div key={idx} className="flex items-start gap-3 py-2">
                   <span className="text-[#FF6B35] mt-0.5">✕</span>
                   <div>
                     {ingredient.amount && (
@@ -161,8 +252,8 @@ function RecipeContent() {
             {instructions.length === 0 ? (
               <p className="text-gray-500 text-center py-8">Yapılış bilgisi bulunmuyor</p>
             ) : (
-              instructions.map((instruction) => (
-                <div key={instruction.index} className="flex items-start gap-4 py-2">
+              instructions.map((instruction, idx) => (
+                <div key={idx} className="flex items-start gap-4 py-2">
                   <div className="w-8 h-8 rounded-full bg-[#FF6B35] text-white flex items-center justify-center font-semibold text-sm flex-shrink-0">
                     {instruction.index}
                   </div>

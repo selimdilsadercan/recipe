@@ -102,3 +102,81 @@ export const getRecipeById = api(
     return { recipe: data?.[0] || null };
   }
 );
+
+// ==================== DELETE RECIPE ====================
+
+interface DeleteRecipeRequest {
+  recipeId: string;
+  userId: string;
+}
+
+interface DeleteRecipeResponse {
+  success: boolean;
+}
+
+/**
+ * Tarif siler (sadece tarifi oluşturan kullanıcı silebilir)
+ * DELETE /recipe/:recipeId
+ */
+export const deleteRecipe = api(
+  { expose: true, method: "DELETE", path: "/recipe/:recipeId" },
+  async ({ recipeId, userId }: DeleteRecipeRequest): Promise<DeleteRecipeResponse> => {
+    const { data, error } = await supabase.rpc("delete_recipe", {
+      recipe_id_param: recipeId,
+      user_id_param: userId,
+    });
+
+    if (error) {
+      console.error("deleteRecipe error:", error);
+      throw APIError.internal("Tarif silinemedi");
+    }
+
+    if (!data) {
+      throw APIError.permissionDenied("Bu tarifi silme yetkiniz yok");
+    }
+
+    return { success: true };
+  }
+);
+
+// ==================== UPDATE RECIPE ====================
+
+interface UpdateRecipeRequest {
+  recipeId: string;
+  userId: string;
+  title: string;
+  ingredients: Ingredient[] | null;
+  instructions: Instruction[] | null;
+}
+
+interface UpdateRecipeResponse {
+  recipe: Recipe | null;
+}
+
+/**
+ * Tarifi günceller (sadece tarifi oluşturan kullanıcı güncelleyebilir)
+ * PUT /recipe/:recipeId
+ */
+export const updateRecipe = api(
+  { expose: true, method: "PUT", path: "/recipe/:recipeId" },
+  async ({ recipeId, userId, title, ingredients, instructions }: UpdateRecipeRequest): Promise<UpdateRecipeResponse> => {
+    const { data, error } = await supabase.rpc("update_recipe", {
+      recipe_id_param: recipeId,
+      user_id_param: userId,
+      title_param: title,
+      ingredients_param: ingredients || null,
+      instructions_param: instructions || null,
+    });
+
+    if (error) {
+      console.error("updateRecipe error:", error);
+      throw APIError.internal("Tarif güncellenemedi");
+    }
+
+    if (!data || data.length === 0) {
+      throw APIError.permissionDenied("Bu tarifi güncelleme yetkiniz yok");
+    }
+
+    return { recipe: data[0] };
+  }
+);

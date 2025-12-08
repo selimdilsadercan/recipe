@@ -1,7 +1,6 @@
 /**
- * Recipe API Service
- * Client-side API calls for recipe operations
- * (Static export compatible - no server actions)
+ * Edit Recipe API Service
+ * Client-side API calls for recipe editing operations
  */
 
 import { createBrowserClient } from "@/lib/api";
@@ -76,26 +75,34 @@ export async function getRecipeByIdAction(
 }
 
 /**
- * Tarifi siler (sadece tarifi oluşturan kullanıcı silebilir)
+ * Tarifi günceller
  */
-export async function deleteRecipeAction(
+export async function updateRecipeAction(
   recipeId: string,
-  userId: string
-): Promise<ActionResponse<boolean>> {
+  userId: string,
+  title: string,
+  ingredients: lib.Ingredient[] | null,
+  instructions: lib.Instruction[] | null
+): Promise<ActionResponse<lib.Recipe>> {
   try {
     const client = createBrowserClient();
     
-    const response = await client.recipe.deleteRecipe(recipeId, { userId });
+    const response = await client.recipe.updateRecipe(recipeId, {
+      userId,
+      title,
+      ingredients,
+      instructions
+    });
     
     return {
-      data: response.success,
+      data: response.recipe,
       error: null
     };
   } catch (error) {
     if (isUnauthenticatedError(error)) {
       return { data: null, error: "UNAUTHENTICATED" };
     }
-    console.error("Failed to delete recipe:", error);
+    console.error("Failed to update recipe:", error);
     return {
       data: null,
       error: getErrorMessage(error)

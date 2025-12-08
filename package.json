@@ -5,14 +5,13 @@
   "packageManager": "bun@1.1.38",
   "workspaces": ["frontend", "backend"],
   "scripts": {
-    "dev": "turbo run dev --filter=@recipe/frontend",
-    "build": "turbo run build",
-    "build:frontend": "turbo run build --filter=@recipe/frontend",
-    "lint": "turbo run lint",
-    "clean": "turbo run clean",
-    "mobile": "turbo run mobile --filter=@recipe/frontend",
-    "store": "turbo run store --filter=@recipe/frontend",
-    "generate": "turbo run generate"
+    "dev": "cd frontend && npm run dev",
+    "generate": "cd backend && npm run generate",
+    "encore": "cd backend && encore run",
+    "build": "turbo run build --filter=@recipe/frontend",
+    "clean": "cd frontend && npm run clean",
+    "mobile": "cd frontend && npm run mobile",
+    "store": "cd frontend && npm run store"
   },
   "devDependencies": {
     "turbo": "^2.3.3"

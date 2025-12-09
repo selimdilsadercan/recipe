@@ -8,12 +8,15 @@ import Client, { Environment, Local } from "./client";
 // Environment'a göre doğru baseURL seçimi
 function getBaseURL() {
   // Browser'da NEXT_PUBLIC_ prefix'li değişken kullanılmalı
-  const environment = process.env.NEXT_PUBLIC_ENCORE_ENVIRONMENT || process.env.ENCORE_ENVIRONMENT || "staging";
-  
+  const environment =
+    process.env.NEXT_PUBLIC_ENCORE_ENVIRONMENT ||
+    process.env.ENCORE_ENVIRONMENT ||
+    "local";
+
   if (environment === "local") {
     return Local;
   }
-  
+
   // Production veya staging environment
   return Environment(environment);
 }

@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "encore run",
     "test": "vitest",
-    "generate": "encore gen client -e staging --output=./client.ts",
+    "generate": "encore gen client -e staging --output=../frontend/lib/client.ts",
     "clean": "rimraf node_modules .encore"
   },
   "devDependencies": {

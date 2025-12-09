@@ -2,9 +2,19 @@
 
 import { useState, useEffect, Suspense, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Check, Trash, Plus, DotsSixVertical } from "@phosphor-icons/react";
+import {
+  ArrowLeft,
+  Check,
+  Trash,
+  Plus,
+  DotsSixVertical,
+} from "@phosphor-icons/react";
 import { useUser } from "@clerk/clerk-react";
-import { getRecipeByIdAction, updateRecipeAction, getOrCreateUserAction } from "./actions";
+import {
+  getRecipeByIdAction,
+  updateRecipeAction,
+  getOrCreateUserAction,
+} from "./actions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -57,7 +67,14 @@ function SortableIngredientItem({
   onUpdate: (id: string, updates: Partial<EditableIngredient>) => void;
   onDelete: (id: string) => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: item.id,
   });
 
@@ -71,9 +88,13 @@ function SortableIngredientItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-3 mb-2"
+      className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-2 mb-1"
     >
-      <button {...attributes} {...listeners} className="cursor-grab touch-none text-gray-400 hover:text-gray-600">
+      <button
+        {...attributes}
+        {...listeners}
+        className="cursor-grab touch-none text-gray-400 hover:text-gray-600"
+      >
         <DotsSixVertical size={20} />
       </button>
       <input
@@ -111,7 +132,14 @@ function SortableInstructionItem({
   onUpdate: (id: string, updates: Partial<EditableInstruction>) => void;
   onDelete: (id: string) => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: item.id,
   });
 
@@ -125,9 +153,13 @@ function SortableInstructionItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="flex items-start gap-2 bg-white rounded-lg border border-gray-200 p-3 mb-2"
+      className="flex items-center gap-2 bg-white rounded-lg border border-gray-200 p-3 mb-2"
     >
-      <button {...attributes} {...listeners} className="cursor-grab touch-none text-gray-400 hover:text-gray-600 mt-1">
+      <button
+        {...attributes}
+        {...listeners}
+        className="cursor-grab touch-none text-gray-400 hover:text-gray-600"
+      >
         <DotsSixVertical size={20} />
       </button>
       <div className="w-7 h-7 rounded-full bg-[#FF6B35] text-white flex items-center justify-center font-semibold text-sm flex-shrink-0">
@@ -138,11 +170,11 @@ function SortableInstructionItem({
         onChange={(e) => onUpdate(item.id, { text: e.target.value })}
         placeholder="Adım açıklaması"
         rows={2}
-        className="flex-1 px-2 py-1 text-sm border border-gray-200 rounded focus:outline-none focus:border-[#FF6B35] resize-none"
+        className="flex-1 min-w-0 px-2 py-1 text-sm border border-gray-200 rounded focus:outline-none focus:border-[#FF6B35] resize-none"
       />
       <button
         onClick={() => onDelete(item.id)}
-        className="p-1 text-red-500 hover:bg-red-50 rounded"
+        className="p-1 text-red-500 hover:bg-red-50 rounded flex-shrink-0"
       >
         <Trash size={18} />
       </button>
@@ -160,7 +192,7 @@ function EditRecipeContent() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState<EditableIngredient[]>([]);
   const [instructions, setInstructions] = useState<EditableInstruction[]>([]);
-  
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -175,10 +207,13 @@ function EditRecipeContent() {
   );
 
   // Generate unique ID
-  const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  const generateId = () =>
+    `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
   // Convert lib types to editable types
-  const toEditableIngredients = (items: lib.Ingredient[] | null): EditableIngredient[] => {
+  const toEditableIngredients = (
+    items: lib.Ingredient[] | null
+  ): EditableIngredient[] => {
     if (!items) return [];
     return items.map((item) => ({
       id: generateId(),
@@ -187,7 +222,9 @@ function EditRecipeContent() {
     }));
   };
 
-  const toEditableInstructions = (items: lib.Instruction[] | null): EditableInstruction[] => {
+  const toEditableInstructions = (
+    items: lib.Instruction[] | null
+  ): EditableInstruction[] => {
     if (!items) return [];
     return items.map((item) => ({
       id: generateId(),
@@ -204,7 +241,9 @@ function EditRecipeContent() {
     }));
   };
 
-  const toLibInstructions = (items: EditableInstruction[]): lib.Instruction[] => {
+  const toLibInstructions = (
+    items: EditableInstruction[]
+  ): lib.Instruction[] => {
     return items.map((item, idx) => ({
       step: idx + 1,
       text: item.text,
@@ -226,7 +265,7 @@ function EditRecipeContent() {
       setError("Tarif ID'si bulunamadı");
       setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recipeId]);
 
   async function fetchRecipe() {
@@ -298,8 +337,13 @@ function EditRecipeContent() {
   }
 
   // Ingredient handlers
-  function handleIngredientUpdate(id: string, updates: Partial<EditableIngredient>) {
-    setIngredients((prev) => prev.map((item) => (item.id === id ? { ...item, ...updates } : item)));
+  function handleIngredientUpdate(
+    id: string,
+    updates: Partial<EditableIngredient>
+  ) {
+    setIngredients((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...updates } : item))
+    );
     setHasChanges(true);
   }
 
@@ -309,7 +353,10 @@ function EditRecipeContent() {
   }
 
   function handleIngredientAdd() {
-    setIngredients((prev) => [...prev, { id: generateId(), name: "", amount: "" }]);
+    setIngredients((prev) => [
+      ...prev,
+      { id: generateId(), name: "", amount: "" },
+    ]);
     setHasChanges(true);
   }
 
@@ -326,8 +373,13 @@ function EditRecipeContent() {
   }
 
   // Instruction handlers
-  function handleInstructionUpdate(id: string, updates: Partial<EditableInstruction>) {
-    setInstructions((prev) => prev.map((item) => (item.id === id ? { ...item, ...updates } : item)));
+  function handleInstructionUpdate(
+    id: string,
+    updates: Partial<EditableInstruction>
+  ) {
+    setInstructions((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...updates } : item))
+    );
     setHasChanges(true);
   }
 
@@ -337,7 +389,10 @@ function EditRecipeContent() {
   }
 
   function handleInstructionAdd() {
-    setInstructions((prev) => [...prev, { id: generateId(), step: prev.length + 1, text: "" }]);
+    setInstructions((prev) => [
+      ...prev,
+      { id: generateId(), step: prev.length + 1, text: "" },
+    ]);
     setHasChanges(true);
   }
 
@@ -367,7 +422,10 @@ function EditRecipeContent() {
     return (
       <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
         <header className="flex items-center px-5 py-4">
-          <button onClick={() => router.back()} className="p-2 -ml-2 hover:bg-gray-100 rounded-full">
+          <button
+            onClick={() => router.back()}
+            className="p-2 -ml-2 hover:bg-gray-100 rounded-full"
+          >
             <ArrowLeft size={24} color="#374151" />
           </button>
         </header>
@@ -382,7 +440,10 @@ function EditRecipeContent() {
     <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
       {/* Header */}
       <header className="flex items-center justify-between px-5 py-4 bg-white border-b border-gray-100 sticky top-0 z-10">
-        <button onClick={handleBack} className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors">
+        <button
+          onClick={handleBack}
+          className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
+        >
           <ArrowLeft size={24} color="#374151" />
         </button>
         <h1 className="font-semibold text-gray-900">Tarifi Düzenle</h1>
@@ -405,7 +466,8 @@ function EditRecipeContent() {
           <AlertDialogHeader>
             <AlertDialogTitle>Kaydedilmemiş değişiklikler</AlertDialogTitle>
             <AlertDialogDescription>
-              Yaptığınız değişiklikler kaydedilmedi. Çıkmak istediğinize emin misiniz?
+              Yaptığınız değişiklikler kaydedilmedi. Çıkmak istediğinize emin
+              misiniz?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -431,7 +493,9 @@ function EditRecipeContent() {
       <main className="flex-1 px-5 py-4 overflow-y-auto pb-20">
         {/* Title Input */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Tarif Adı</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Tarif Adı
+          </label>
           <input
             type="text"
             value={title}
@@ -447,7 +511,9 @@ function EditRecipeContent() {
         {/* Ingredients Section */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <label className="text-sm font-medium text-gray-700">Malzemeler</label>
+            <label className="text-sm font-medium text-gray-700">
+              Malzemeler
+            </label>
             <button
               onClick={handleIngredientAdd}
               className="flex items-center gap-1 text-[#FF6B35] text-sm font-medium hover:text-[#e55a2b]"
@@ -456,8 +522,15 @@ function EditRecipeContent() {
               Ekle
             </button>
           </div>
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleIngredientDragEnd}>
-            <SortableContext items={ingredients.map((i) => i.id)} strategy={verticalListSortingStrategy}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleIngredientDragEnd}
+          >
+            <SortableContext
+              items={ingredients.map((i) => i.id)}
+              strategy={verticalListSortingStrategy}
+            >
               {ingredients.map((ingredient) => (
                 <SortableIngredientItem
                   key={ingredient.id}
@@ -469,7 +542,9 @@ function EditRecipeContent() {
             </SortableContext>
           </DndContext>
           {ingredients.length === 0 && (
-            <p className="text-gray-400 text-sm text-center py-4">Henüz malzeme eklenmedi</p>
+            <p className="text-gray-400 text-sm text-center py-4">
+              Henüz malzeme eklenmedi
+            </p>
           )}
         </div>
 
@@ -485,8 +560,15 @@ function EditRecipeContent() {
               Ekle
             </button>
           </div>
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleInstructionDragEnd}>
-            <SortableContext items={instructions.map((i) => i.id)} strategy={verticalListSortingStrategy}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleInstructionDragEnd}
+          >
+            <SortableContext
+              items={instructions.map((i) => i.id)}
+              strategy={verticalListSortingStrategy}
+            >
               {instructions.map((instruction, index) => (
                 <SortableInstructionItem
                   key={instruction.id}
@@ -499,7 +581,9 @@ function EditRecipeContent() {
             </SortableContext>
           </DndContext>
           {instructions.length === 0 && (
-            <p className="text-gray-400 text-sm text-center py-4">Henüz yapılış adımı eklenmedi</p>
+            <p className="text-gray-400 text-sm text-center py-4">
+              Henüz yapılış adımı eklenmedi
+            </p>
           )}
         </div>
       </main>

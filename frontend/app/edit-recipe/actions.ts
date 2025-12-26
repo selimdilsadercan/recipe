@@ -82,7 +82,10 @@ export async function updateRecipeAction(
   userId: string,
   title: string,
   ingredients: lib.Ingredient[] | null,
-  instructions: lib.Instruction[] | null
+  instructions: lib.Instruction[] | null,
+  servings?: number | null,
+  prepTime?: number | null,
+  cookTime?: number | null
 ): Promise<ActionResponse<lib.Recipe>> {
   try {
     const client = createBrowserClient();
@@ -91,7 +94,10 @@ export async function updateRecipeAction(
       userId,
       title,
       ingredients,
-      instructions
+      instructions,
+      servings,
+      prepTime,
+      cookTime
     });
     
     return {

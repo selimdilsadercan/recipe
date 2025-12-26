@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@clerk/clerk-react";
-import { X, Image, CaretDown, CaretUp } from "@phosphor-icons/react";
+import { X, Image, CaretDown, CaretUp, Users, Timer } from "@phosphor-icons/react";
 import { parseRecipeText } from "@/lib/text-to-recipe";
 import { createRecipe, getOrCreateUserAction } from "./actions";
 import { useShareIntent } from "@/lib/use-share-intent";
@@ -18,6 +18,11 @@ function CreateRecipeContent() {
   const [isImporting, setIsImporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tipsOpen, setTipsOpen] = useState(true);
+  
+  // Metadata state
+  const [servings, setServings] = useState<string>("");
+  const [prepTime, setPrepTime] = useState<string>("");
+  const [cookTime, setCookTime] = useState<string>("");
 
   // Handle shared text from Instagram or other apps
   useEffect(() => {
@@ -72,7 +77,10 @@ function CreateRecipeContent() {
         parsed.title,
         userResult.data.id,
         parsed.ingredients,
-        parsed.instructions
+        parsed.instructions,
+        servings ? parseInt(servings) : null,
+        prepTime ? parseInt(prepTime) : null,
+        cookTime ? parseInt(cookTime) : null
       );
 
       if (recipeResult.error) {
@@ -157,6 +165,55 @@ function CreateRecipeContent() {
               </ul>
             </div>
           )}
+        </div>
+
+        {/* Recipe Metadata */}
+        <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
+          <h3 className="text-sm font-medium text-gray-700 mb-3">Tarif Bilgileri (opsiyonel)</h3>
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+                <Users size={14} />
+                Kişi
+              </label>
+              <input
+                type="number"
+                value={servings}
+                onChange={(e) => setServings(e.target.value)}
+                placeholder="4"
+                min="1"
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+                <Timer size={14} />
+                Hazırlık (dk)
+              </label>
+              <input
+                type="number"
+                value={prepTime}
+                onChange={(e) => setPrepTime(e.target.value)}
+                placeholder="20"
+                min="0"
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+                <Timer size={14} />
+                Pişirme (dk)
+              </label>
+              <input
+                type="number"
+                value={cookTime}
+                onChange={(e) => setCookTime(e.target.value)}
+                placeholder="15"
+                min="0"
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Error Message */}

@@ -24,6 +24,9 @@ interface CreateRecipeRequest {
   userId: string;
   ingredients?: Ingredient[] | null;
   instructions?: Instruction[] | null;
+  servings?: number | null;
+  prepTime?: number | null;
+  cookTime?: number | null;
 }
 
 interface CreateRecipeResponse {
@@ -66,12 +69,15 @@ export const getUserRecipes = api(
  */
 export const createRecipe = api(
   { expose: true, method: "POST", path: "/recipe/create" },
-  async ({ title, userId, ingredients, instructions }: CreateRecipeRequest): Promise<CreateRecipeResponse> => {
+  async ({ title, userId, ingredients, instructions, servings, prepTime, cookTime }: CreateRecipeRequest): Promise<CreateRecipeResponse> => {
     const { data, error } = await supabase.rpc("create_new_recipe", {
       title_param: title,
       user_id_param: userId,
       ingredients_param: ingredients || null,
       instructions_param: instructions || null,
+      servings_param: servings || null,
+      prep_time_param: prepTime || null,
+      cook_time_param: cookTime || null,
     });
 
     if (error) {
@@ -147,6 +153,9 @@ interface UpdateRecipeRequest {
   title: string;
   ingredients: Ingredient[] | null;
   instructions: Instruction[] | null;
+  servings?: number | null;
+  prepTime?: number | null;
+  cookTime?: number | null;
 }
 
 interface UpdateRecipeResponse {
@@ -159,13 +168,16 @@ interface UpdateRecipeResponse {
  */
 export const updateRecipe = api(
   { expose: true, method: "PUT", path: "/recipe/:recipeId" },
-  async ({ recipeId, userId, title, ingredients, instructions }: UpdateRecipeRequest): Promise<UpdateRecipeResponse> => {
+  async ({ recipeId, userId, title, ingredients, instructions, servings, prepTime, cookTime }: UpdateRecipeRequest): Promise<UpdateRecipeResponse> => {
     const { data, error } = await supabase.rpc("update_recipe", {
       recipe_id_param: recipeId,
       user_id_param: userId,
       title_param: title,
       ingredients_param: ingredients || null,
       instructions_param: instructions || null,
+      servings_param: servings || null,
+      prep_time_param: prepTime || null,
+      cook_time_param: cookTime || null,
     });
 
     if (error) {

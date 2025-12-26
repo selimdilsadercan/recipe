@@ -6,7 +6,10 @@ CREATE FUNCTION update_recipe(
   user_id_param UUID,
   title_param TEXT,
   ingredients_param JSONB,
-  instructions_param JSONB
+  instructions_param JSONB,
+  servings_param INTEGER DEFAULT NULL,
+  prep_time_param INTEGER DEFAULT NULL,
+  cook_time_param INTEGER DEFAULT NULL
 )
 RETURNS TABLE (
   id UUID,
@@ -15,7 +18,10 @@ RETURNS TABLE (
   created_at TIMESTAMPTZ,
   created_user_id UUID,
   ingredients JSONB,
-  instructions JSONB
+  instructions JSONB,
+  servings INTEGER,
+  prep_time INTEGER,
+  cook_time INTEGER
 )
 LANGUAGE plpgsql
 VOLATILE
@@ -26,7 +32,10 @@ BEGIN
   SET 
     title = title_param,
     ingredients = ingredients_param,
-    instructions = instructions_param
+    instructions = instructions_param,
+    servings = servings_param,
+    prep_time = prep_time_param,
+    cook_time = cook_time_param
   WHERE recipes.id = recipe_id_param
     AND recipes.created_user_id = user_id_param
   RETURNING 
@@ -36,6 +45,9 @@ BEGIN
     recipes.created_at,
     recipes.created_user_id,
     recipes.ingredients,
-    recipes.instructions;
+    recipes.instructions,
+    recipes.servings,
+    recipes.prep_time,
+    recipes.cook_time;
 END;
 $$;

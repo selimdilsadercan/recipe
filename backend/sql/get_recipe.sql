@@ -1,4 +1,4 @@
--- Tek bir tarifinTÜM detaylarını getiren fonksiyon
+-- Tek bir tarifin TÜM detaylarını getiren fonksiyon
 DROP FUNCTION IF EXISTS get_recipe;
 
 CREATE FUNCTION get_recipe(recipe_id_param UUID)
@@ -9,7 +9,10 @@ RETURNS TABLE (
   created_at TIMESTAMPTZ,
   created_user_id UUID,
   ingredients JSONB,
-  instructions JSONB
+  instructions JSONB,
+  servings INTEGER,
+  prep_time INTEGER,
+  cook_time INTEGER
 )
 LANGUAGE sql
 STABLE
@@ -21,7 +24,10 @@ AS $$
     created_at,
     created_user_id,
     ingredients,
-    instructions
+    instructions,
+    servings,
+    prep_time,
+    cook_time
   FROM recipes
   WHERE id = recipe_id_param
   LIMIT 1;

@@ -56,7 +56,10 @@ export async function createRecipe(
   title: string,
   userId: string,
   ingredients?: ParsedIngredient[] | null,
-  instructions?: ParsedInstruction[] | null
+  instructions?: ParsedInstruction[] | null,
+  servings?: number | null,
+  prepTime?: number | null,
+  cookTime?: number | null
 ): Promise<ActionResponse<lib.Recipe>> {
   try {
     const client = createBrowserClient();
@@ -69,7 +72,10 @@ export async function createRecipe(
       title,
       userId,
       ingredients: convertedIngredients,
-      instructions: convertedInstructions
+      instructions: convertedInstructions,
+      servings,
+      prepTime,
+      cookTime
     });
     
     return {

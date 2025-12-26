@@ -7,6 +7,8 @@ import {
   PencilSimple,
   DotsThreeVertical,
   Trash,
+  ForkKnife,
+  Timer,
 } from "@phosphor-icons/react";
 import { useUser } from "@clerk/clerk-react";
 import {
@@ -222,6 +224,28 @@ function RecipeContent() {
       {/* Recipe Title */}
       <div className="px-5 py-4 bg-white border-b border-gray-100">
         <h1 className="text-2xl font-bold text-gray-900">{recipe.title}</h1>
+        
+        {/* Recipe Metadata */}
+        {(recipe.servings || recipe.prep_time || recipe.cook_time) && (
+          <div className="flex items-center gap-4 mt-3 text-gray-500 text-sm">
+            {recipe.servings && (
+              <div className="flex items-center gap-1">
+                <ForkKnife size={18} className="text-gray-400" />
+                <span>{recipe.servings} Kişilik</span>
+              </div>
+            )}
+            {(recipe.prep_time || recipe.cook_time) && (
+              <div className="flex items-center gap-1">
+                <Timer size={18} className="text-gray-400" />
+                <span>
+                  {recipe.cook_time && `${recipe.cook_time}dk Pişirme`}
+                  {recipe.prep_time && recipe.cook_time && ', '}
+                  {recipe.prep_time && `${recipe.prep_time}dk Hazırlama`}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Content - Malzemeler ve Yapılış Alt Alta */}

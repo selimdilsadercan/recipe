@@ -8,6 +8,8 @@ import {
   Trash,
   Plus,
   DotsSixVertical,
+  Users,
+  Timer,
 } from "@phosphor-icons/react";
 import { useUser } from "@clerk/clerk-react";
 import {
@@ -198,6 +200,11 @@ function EditRecipeContent() {
   const [error, setError] = useState<string | null>(null);
   const [hasChanges, setHasChanges] = useState(false);
   const [showExitDialog, setShowExitDialog] = useState(false);
+  
+  // Metadata state
+  const [servings, setServings] = useState<string>("");
+  const [prepTime, setPrepTime] = useState<string>("");
+  const [cookTime, setCookTime] = useState<string>("");
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -279,6 +286,10 @@ function EditRecipeContent() {
         setTitle(result.data.title);
         setIngredients(toEditableIngredients(result.data.ingredients));
         setInstructions(toEditableInstructions(result.data.instructions));
+        // Load metadata
+        setServings(result.data.servings?.toString() || "");
+        setPrepTime(result.data.prep_time?.toString() || "");
+        setCookTime(result.data.cook_time?.toString() || "");
       } else {
         setError(result.error || "Tarif bulunamadı");
       }
@@ -319,7 +330,10 @@ function EditRecipeContent() {
         userResult.data.id,
         title,
         toLibIngredients(ingredients),
-        toLibInstructions(instructions)
+        toLibInstructions(instructions),
+        servings ? parseInt(servings) : null,
+        prepTime ? parseInt(prepTime) : null,
+        cookTime ? parseInt(cookTime) : null
       );
 
       if (result.data) {
@@ -492,7 +506,7 @@ function EditRecipeContent() {
       {/* Content */}
       <main className="flex-1 px-5 py-4 overflow-y-auto pb-20">
         {/* Title Input */}
-        <div className="mb-6">
+        <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Tarif Adı
           </label>
@@ -506,6 +520,55 @@ function EditRecipeContent() {
             placeholder="Tarif adını girin"
             className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#FF6B35] text-lg"
           />
+        </div>
+
+        {/* Recipe Metadata */}
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-6">
+          <h3 className="text-sm font-medium text-gray-700 mb-3">Tarif Bilgileri</h3>
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+                <Users size={14} />
+                Kişi
+              </label>
+              <input
+                type="number"
+                value={servings}
+                onChange={(e) => { setServings(e.target.value); setHasChanges(true); }}
+                placeholder="4"
+                min="1"
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+                <Timer size={14} />
+                Hazırlık (dk)
+              </label>
+              <input
+                type="number"
+                value={prepTime}
+                onChange={(e) => { setPrepTime(e.target.value); setHasChanges(true); }}
+                placeholder="20"
+                min="0"
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="flex items-center gap-1 text-xs text-gray-500 mb-1">
+                <Timer size={14} />
+                Pişirme (dk)
+              </label>
+              <input
+                type="number"
+                value={cookTime}
+                onChange={(e) => { setCookTime(e.target.value); setHasChanges(true); }}
+                placeholder="15"
+                min="0"
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6B35] focus:border-transparent"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Ingredients Section */}

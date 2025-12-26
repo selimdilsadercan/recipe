@@ -20,6 +20,9 @@ export interface Recipe {
   created_user_id: string;
   ingredients: Ingredient[] | null;
   instructions: Instruction[] | null;
+  servings: number | null;
+  prep_time: number | null;
+  cook_time: number | null;
 }
 
 export interface RecipeSummary {
@@ -27,6 +30,9 @@ export interface RecipeSummary {
   title: string;
   image_url: string | null;
   created_at: string;
+  servings: number | null;
+  prep_time: number | null;
+  cook_time: number | null;
 }
 
 export interface User {

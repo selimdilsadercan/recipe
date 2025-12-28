@@ -9,6 +9,8 @@ import {
   Trash,
   ForkKnife,
   Timer,
+  Plus,
+  Minus,
 } from "@phosphor-icons/react";
 import { useUser } from "@clerk/clerk-react";
 import {
@@ -33,6 +35,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import type { lib } from "@/lib/client";
 import type { Ingredient, Instruction } from "@/lib/text-to-recipe";
+import { scaleAmount, getScaleFactor } from "@/lib/scale-ingredient";
 
 function RecipeContent() {
   const router = useRouter();
@@ -46,6 +49,7 @@ function RecipeContent() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [currentServings, setCurrentServings] = useState<number | null>(null);
 
   useEffect(() => {
     if (recipeId) {
@@ -65,6 +69,10 @@ function RecipeContent() {
       const result = await getRecipeByIdAction(recipeId);
       if (result.data) {
         setRecipe(result.data);
+        // Initialize currentServings with recipe's original servings
+        if (result.data.servings) {
+          setCurrentServings(result.data.servings);
+        }
       } else {
         setError(result.error || "Tarif bulunamadı");
       }
@@ -252,9 +260,36 @@ function RecipeContent() {
       <main className="flex-1 px-5 py-6 overflow-y-auto">
         {/* Malzemeler Bölümü */}
         <section className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-bold text-gray-900">Malzemeler</h2>
-            <div className="flex-1 h-px bg-gray-200"></div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl font-bold text-gray-900">Malzemeler</h2>
+              <div className="flex-1 h-px bg-gray-200"></div>
+            </div>
+            
+            {/* Serving Size Adjuster */}
+            {recipe.servings && currentServings && (
+              <div className="flex items-center gap-2">
+                <div className="flex items-center border border-gray-300 rounded-full">
+                  <button
+                    onClick={() => setCurrentServings(Math.max(1, currentServings - 1))}
+                    disabled={currentServings <= 1}
+                    className="p-2 text-[#FF6B35] hover:bg-gray-100 rounded-l-full disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <Minus size={18} weight="bold" />
+                  </button>
+                  <span className="px-3 min-w-[2rem] text-center font-semibold text-gray-900">
+                    {currentServings}
+                  </span>
+                  <button
+                    onClick={() => setCurrentServings(currentServings + 1)}
+                    className="p-2 text-[#FF6B35] hover:bg-gray-100 rounded-r-full"
+                  >
+                    <Plus size={18} weight="bold" />
+                  </button>
+                </div>
+                <span className="text-sm text-gray-500">kişilik</span>
+              </div>
+            )}
           </div>
 
           {ingredients.length === 0 ? (
@@ -263,23 +298,31 @@ function RecipeContent() {
             </p>
           ) : (
             <div className="bg-white rounded-lg border border-gray-200 p-4 space-y-2">
-              {ingredients.map((ingredient, idx) => (
-                <div key={idx} className="flex items-center gap-3 py-1.5">
-                  <div className="flex-shrink-0 w-5 h-5 flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B35]"></div>
-                  </div>
-                  <div className="flex-1 flex items-center gap-2 pb-0.5">
-                    {ingredient.amount && (
-                      <span className="font-semibold text-gray-900 text-base leading-tight">
-                        {ingredient.amount}
+              {ingredients.map((ingredient, idx) => {
+                // Calculate scaled amount
+                const scaleFactor = recipe.servings && currentServings 
+                  ? getScaleFactor(currentServings, recipe.servings)
+                  : 1;
+                const scaledAmount = scaleAmount(ingredient.amount, scaleFactor);
+                
+                return (
+                  <div key={idx} className="flex items-center gap-3 py-1.5">
+                    <div className="flex-shrink-0 w-5 h-5 flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B35]"></div>
+                    </div>
+                    <div className="flex-1 flex items-center gap-2 pb-0.5">
+                      {scaledAmount && (
+                        <span className="font-semibold text-gray-900 text-base leading-tight">
+                          {scaledAmount}
+                        </span>
+                      )}
+                      <span className="text-gray-700 text-base leading-tight">
+                        {ingredient.name}
                       </span>
-                    )}
-                    <span className="text-gray-700 text-base leading-tight">
-                      {ingredient.name}
-                    </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>

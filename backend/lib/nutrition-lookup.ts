@@ -77,6 +77,7 @@ export async function lookupIngredient(
   usdaApiKey?: string
 ): Promise<LookupResult> {
   const normalizedName = ingredientName.toLowerCase().trim();
+  console.log(`[Lookup] Searching for: "${ingredientName}" -> Normalized: "${normalizedName}"`);
   
   // 1. Katman: JSON'dan ara (hızlı, ücretsiz)
   const jsonResult = searchInJson(normalizedName);
@@ -282,6 +283,7 @@ function searchInJson(query: string): LookupResult {
   );
   
   if (exactMatch) {
+    console.log(`[Lookup] Exact match found: ${exactMatch.name_tr}`);
     return {
       found: true,
       source: "json",
@@ -292,19 +294,25 @@ function searchInJson(query: string): LookupResult {
   
   // Fuzzy arama
   const results = fuse.search(query);
+  console.log(`[Lookup] Fuzzy results for "${query}": ${results.length} found`);
   
-  if (results.length > 0 && results[0].score !== undefined) {
+  if (results.length > 0) {
     const bestMatch = results[0];
-    const confidence = 1 - bestMatch.score; // Fuse score tersine çevir
+    console.log(`[Lookup] Best fuzzy match: ${bestMatch.item.name_tr} (Score: ${bestMatch.score})`);
     
-    return {
-      found: true,
-      source: "json",
-      ingredient: bestMatch.item,
-      confidence,
-    };
+    if (bestMatch.score !== undefined) {
+        const confidence = 1 - bestMatch.score; // Fuse score tersine çevir
+        
+        return {
+        found: true,
+        source: "json",
+        ingredient: bestMatch.item,
+        confidence,
+        };
+    }
   }
   
+  console.log(`[Lookup] No JSON match found for "${query}"`);
   return {
     found: false,
     source: "not_found",

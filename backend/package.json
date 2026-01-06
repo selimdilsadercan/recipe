@@ -12,13 +12,16 @@
     "clean": "rimraf node_modules .encore"
   },
   "devDependencies": {
-    "@types/node": "^20.5.7",
+    "@types/node": "^20.19.27",
     "typescript": "^5.2.2",
     "vitest": "^1.5.0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.86.2",
-    "encore.dev": "^1.52.3"
+    "csv-parser": "^3.2.0",
+    "dotenv": "^17.2.3",
+    "encore.dev": "^1.52.3",
+    "fuse.js": "^7.1.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"

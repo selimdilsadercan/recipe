@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProviderWrapper } from "@/components/ClerkProvider";
 import { ShareIntentHandler } from "@/components/ShareIntentHandler";
+import { MobileAppBanner } from "@/components/MobileAppBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ReciMe - Recipe Manager",
+  title: "RECIVERSE - Recipe Manager",
   description: "Your personal recipe manager",
 };
 
@@ -32,6 +33,7 @@ export default function RootLayout({
         <ClerkProviderWrapper>
           <ShareIntentHandler>
             {children}
+            <MobileAppBanner />
           </ShareIntentHandler>
         </ClerkProviderWrapper>
       </body>

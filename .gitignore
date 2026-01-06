@@ -71,3 +71,5 @@ encore.gen.cue
 
 # Debug
 *.pem
+
+backend/ingredients/

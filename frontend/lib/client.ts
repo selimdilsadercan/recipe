@@ -33,6 +33,7 @@ const BROWSER = typeof globalThis === "object" && ("window" in globalThis);
  */
 export default class Client {
     public readonly identity: identity.ServiceClient
+    public readonly nutrition: nutrition.ServiceClient
     public readonly recipe: recipe.ServiceClient
     private readonly options: ClientOptions
     private readonly target: string
@@ -49,6 +50,7 @@ export default class Client {
         this.options = options ?? {}
         const base = new BaseClient(this.target, this.options)
         this.identity = new identity.ServiceClient(base)
+        this.nutrition = new nutrition.ServiceClient(base)
         this.recipe = new recipe.ServiceClient(base)
     }
 
@@ -140,6 +142,54 @@ export namespace identity {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/identity/user/clerk/${encodeURIComponent(clerkId)}`)
             return await resp.json() as GetUserByClerkIdResponse
+        }
+    }
+}
+
+export namespace nutrition {
+    export interface AnalyzedIngredient {
+        "original_name": string
+        "matched_name": string | null
+        "amount_str": string
+        "amount_g": number | null
+        found: boolean
+        source: "json" | "db" | "api" | "not_found"
+        confidence: number
+        nutrients: lib.NutrientData | null
+    }
+
+    export interface CalculateNutritionRequest {
+        ingredients: IngredientInput[]
+        servings?: number
+    }
+
+    export interface CalculateNutritionResponse {
+        total: lib.NutrientData
+        "per_serving": lib.NutrientData | null
+        ingredients: AnalyzedIngredient[]
+        "coverage_percent": number
+    }
+
+    export interface IngredientInput {
+        name: string
+        amount: string
+    }
+
+    export class ServiceClient {
+        private baseClient: BaseClient
+
+        constructor(baseClient: BaseClient) {
+            this.baseClient = baseClient
+            this.calculateRecipeNutrition = this.calculateRecipeNutrition.bind(this)
+        }
+
+        /**
+         * API Endpoint
+         */
+        public async calculateRecipeNutrition(params: CalculateNutritionRequest): Promise<CalculateNutritionResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("POST", `/nutrition/calculate`, JSON.stringify(params))
+            return await resp.json() as CalculateNutritionResponse
         }
     }
 }
@@ -268,6 +318,44 @@ export namespace lib {
     export interface Instruction {
         step: number
         text: string
+    }
+
+    export interface NutrientData {
+        calories: number
+        protein: number
+        fat: number
+        carbs: number
+        fiber: number
+        sugar: number
+        cholesterol: number
+        /**
+         * Vitaminler
+         */
+        "vitamin_a": number
+
+        "vitamin_c": number
+        "vitamin_d": number
+        "vitamin_e": number
+        "vitamin_k": number
+        thiamin: number
+        riboflavin: number
+        niacin: number
+        "vitamin_b6": number
+        "vitamin_b12": number
+        /**
+         * Mineraller
+         */
+        calcium: number
+
+        iron: number
+        magnesium: number
+        phosphorus: number
+        potassium: number
+        sodium: number
+        zinc: number
+        copper: number
+        manganese: number
+        selenium: number
     }
 
     export interface Recipe {

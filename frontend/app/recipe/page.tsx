@@ -23,19 +23,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { ConfirmModal } from "@/components/ConfirmModal";
 import type { lib } from "@/lib/client";
 import type { Ingredient, Instruction } from "@/lib/text-to-recipe";
 import { scaleAmount, getScaleFactor } from "@/lib/scale-ingredient";
+import { NutritionTable } from "@/components/NutritionTable";
 
 function RecipeContent() {
   const router = useRouter();
@@ -84,6 +76,14 @@ function RecipeContent() {
     }
   }
 
+  // Calculate scaled ingredients for display and nutrition
+  const nutritionIngredients = recipe?.ingredients?.map(ing => {
+    if (!currentServings || !recipe?.servings) return { name: ing.name, amount: ing.amount || "" };
+    const factor = getScaleFactor(currentServings, recipe.servings);
+    const scaledAmount = scaleAmount(ing.amount || "", factor);
+    return { name: ing.name, amount: scaledAmount };
+  }) || [];
+
   async function handleDeleteRecipe() {
     if (!recipeId || !user?.id) return;
 
@@ -110,13 +110,11 @@ function RecipeContent() {
     } catch (err) {
       console.error(err);
       setError("Tarif silinirken hata oluştu");
-      setIsDeleteDialogOpen(false);
     } finally {
       setIsDeleting(false);
     }
   }
 
-  // Loading state
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#FAF9F7]">
@@ -125,35 +123,27 @@ function RecipeContent() {
     );
   }
 
-  // Error state
   if (error || !recipe) {
     return (
-      <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
-        <header className="flex items-center px-5 py-4">
-          <button
-            onClick={() => router.back()}
-            className="p-2 -ml-2 hover:bg-gray-100 rounded-full"
-          >
-            <ArrowLeft size={24} color="#374151" />
-          </button>
-        </header>
-        <main className="flex-1 flex items-center justify-center px-5">
-          <p className="text-red-500">{error || "Tarif bulunamadı"}</p>
-        </main>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#FAF9F7] p-4">
+        <p className="text-red-500 mb-4 text-center">{error}</p>
+        <button
+          onClick={() => router.push("/home")}
+          className="text-[#FF6B35] underline"
+        >
+          Ana Sayfaya Dön
+        </button>
       </div>
     );
   }
 
-  // Cast ingredients and instructions to local types for rendering
-  const ingredients =
-    (recipe.ingredients as unknown as Ingredient[] | null) || [];
-  const instructions =
-    (recipe.instructions as unknown as Instruction[] | null) || [];
+  const ingredients = (recipe.ingredients as Ingredient[]) || [];
+  const instructions = (recipe.instructions as Instruction[]) || [];
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#FAF9F7]">
-      {/* Header */}
-      <header className="flex items-center justify-between px-5 py-4 bg-white border-b border-gray-100">
+    <div className="min-h-screen bg-[#FAF9F7] flex flex-col font-sans mb-20">
+      {/* Header Image & Actions */}
+      <header className="relative px-5 py-4 flex items-center justify-between bg-white z-10">
         <button
           onClick={() => router.back()}
           className="p-2 -ml-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -192,31 +182,16 @@ function RecipeContent() {
       </header>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog
+      <ConfirmModal
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              Tarifi silmek istediğinize emin misiniz?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              Bu işlem geri alınamaz. Tarif kalıcı olarak silinecektir.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Vazgeç</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDeleteRecipe}
-              disabled={isDeleting}
-              className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
-            >
-              {isDeleting ? "Siliniyor..." : "Evet, Sil"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        title="Tarifi silmek istediğinize emin misiniz?"
+        description="Bu işlem geri alınamaz. Tarif kalıcı olarak silinecektir."
+        confirmText={isDeleting ? "Siliniyor..." : "Evet, Sil"}
+        onConfirm={handleDeleteRecipe}
+        isLoading={isDeleting}
+        variant="danger"
+      />
 
       {/* Recipe Image - sadece varsa göster */}
       {recipe.image_url && (
@@ -258,6 +233,17 @@ function RecipeContent() {
 
       {/* Content - Malzemeler ve Yapılış Alt Alta */}
       <main className="flex-1 px-5 py-6 overflow-y-auto">
+        
+        {/* Nutrition Table */}
+        {nutritionIngredients.length > 0 && currentServings && (
+          <div className="mb-8">
+            <NutritionTable 
+              ingredients={nutritionIngredients} 
+              servings={currentServings} 
+            />
+          </div>
+        )}
+
         {/* Malzemeler Bölümü */}
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -299,11 +285,8 @@ function RecipeContent() {
           ) : (
             <div className="bg-white rounded-lg border border-gray-200 p-4 space-y-2">
               {ingredients.map((ingredient, idx) => {
-                // Calculate scaled amount
-                const scaleFactor = recipe.servings && currentServings 
-                  ? getScaleFactor(currentServings, recipe.servings)
-                  : 1;
-                const scaledAmount = scaleAmount(ingredient.amount, scaleFactor);
+                // Determine scaled amount for display
+                const displayAmount = nutritionIngredients[idx]?.amount || ingredient.amount;
                 
                 return (
                   <div key={idx} className="flex items-center gap-3 py-1.5">
@@ -311,9 +294,9 @@ function RecipeContent() {
                       <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B35]"></div>
                     </div>
                     <div className="flex-1 flex items-center gap-2 pb-0.5">
-                      {scaledAmount && (
+                      {displayAmount && (
                         <span className="font-semibold text-gray-900 text-base leading-tight">
-                          {scaledAmount}
+                          {displayAmount}
                         </span>
                       )}
                       <span className="text-gray-700 text-base leading-tight">

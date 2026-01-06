@@ -17,16 +17,7 @@ import {
   updateRecipeAction,
   getOrCreateUserAction,
 } from "./actions";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { ConfirmModal } from "@/components/ConfirmModal";
 import {
   DndContext,
   closestCenter,
@@ -475,26 +466,15 @@ function EditRecipeContent() {
       </header>
 
       {/* Exit Confirmation Dialog */}
-      <AlertDialog open={showExitDialog} onOpenChange={setShowExitDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Kaydedilmemiş değişiklikler</AlertDialogTitle>
-            <AlertDialogDescription>
-              Yaptığınız değişiklikler kaydedilmedi. Çıkmak istediğinize emin
-              misiniz?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Vazgeç</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => router.back()}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              Çık
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <ConfirmModal
+        open={showExitDialog}
+        onOpenChange={setShowExitDialog}
+        title="Kaydedilmemiş değişiklikler"
+        description="Yaptığınız değişiklikler kaydedilmedi. Çıkmak istediğinize emin misiniz?"
+        confirmText="Çık"
+        onConfirm={() => router.back()}
+        variant="danger"
+      />
 
       {/* Error Banner */}
       {error && (

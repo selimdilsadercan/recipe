@@ -102,3 +102,31 @@ export async function deleteRecipeAction(
     };
   }
 }
+
+/**
+ * Tarifin besin değerlerini hesaplar
+ */
+export async function calculateNutritionAction(
+  ingredients: { name: string; amount: string }[],
+  servings: number = 1
+): Promise<ActionResponse<lib.CalculateNutritionResponse>> {
+  try {
+    const client = createBrowserClient();
+    
+    const response = await client.nutrition.calculateRecipeNutrition({
+      ingredients,
+      servings,
+    });
+    
+    return {
+      data: response,
+      error: null
+    };
+  } catch (error) {
+    console.error("Failed to calculate nutrition:", error);
+    return {
+      data: null,
+      error: "Besin değerleri hesaplanamadı"
+    };
+  }
+}

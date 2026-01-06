@@ -396,7 +396,10 @@ export function sumNutrients(nutrientsList: NutrientData[]): NutrientData {
 export function parseAmountToGrams(amountString: string, ingredientName?: string): number | null {
   if (!amountString) return null;
   
-  const normalized = amountString.toLowerCase().trim();
+  // Kelime bazlı sayıları normalize et
+  const normalized = amountString.toLowerCase().trim()
+    .replace(/^yarım\s+/, "0.5 ")
+    .replace(/^çeyrek\s+/, "0.25 ");
   
   // Yaygın birim dönüşümleri (gram cinsinden)
   const unitConversions: Record<string, number> = {
@@ -426,6 +429,7 @@ export function parseAmountToGrams(amountString: string, ingredientName?: string
     
     // Diğer
     "adet": 50, // Ortalama
+    "paket": 200, // Krema vb. standart paket
     "dilim": 30,
     "tutam": 1,
     "diş": 5, // Sarımsak için

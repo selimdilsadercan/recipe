@@ -1,0 +1,121 @@
+﻿[38;5;244mConnected, waiting for logs...[0m
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0m1m52hvkds5fos [36mtrace_id=[0mu9228ga1igcgvotalqtkacevf0
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m139.699277 [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0m1m52hvkds5fos [36mtrace_id=[0mu9228ga1igcgvotalqtkacevf0
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0moefv2ebgevp4k [36mtrace_id=[0m501qosolocol2anbs051o0e07c
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m75.631727 [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0moefv2ebgevp4k [36mtrace_id=[0m501qosolocol2anbs051o0e07c
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetOrCreateUser [36minstance_id=[0m1917dd [36mservice=[0midentity [36mspan_id=[0mnviv8jfs39mdu [36mtrace_id=[0mlq1bfktl0d5cqanbs051o0e4f0
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m59.94806 [36mendpoint=[0mgetOrCreateUser [36minstance_id=[0m1917dd [36mservice=[0midentity [36mspan_id=[0mnviv8jfs39mdu [36mtrace_id=[0mlq1bfktl0d5cqanbs051o0e4f0
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mupdateRecipe [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mgrudq9thhn9ei [36mtrace_id=[0mll1qtf3mfjll6anbs051o0e4ho
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m73.129734 [36mendpoint=[0mupdateRecipe [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mgrudq9thhn9ei [36mtrace_id=[0mll1qtf3mfjll6anbs051o0e4ho
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mplcij5a2iqaeo [36mtrace_id=[0m1bin9614dd5f9otalqtkaceqfk
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m61.495472 [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mplcij5a2iqaeo [36mtrace_id=[0m1bin9614dd5f9otalqtkaceqfk
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mdva9n7c5s1u9i [36mtrace_id=[0m513g4ni8kiuu6anbs051o0ea2o
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m66.659483 [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mdva9n7c5s1u9i [36mtrace_id=[0m513g4ni8kiuu6anbs051o0ea2o
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0mcjikqv23ock9q [36mtrace_id=[0mr3m8pbmo6a1mmanbs051o0e24s
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "makarna" -> Normalized: "makarna"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Makarna[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tavuk göğsü" -> Normalized: "tavuk göğsü"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tavuk göğsü[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "köri" -> Normalized: "köri"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Köri[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "ayçiçek yağı" -> Normalized: "ayçiçek yağı"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Ayçiçek yağı[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "krema" -> Normalized: "krema"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Krema[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tuz" -> Normalized: "tuz"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0mlvfcv2mnepk4u [36mtrace_id=[0m5bv5u0nb27il0anbs051o0ecq4
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tuz[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "karabiber" -> Normalized: "karabiber"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Karabiber[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "makarna" -> Normalized: "makarna"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Makarna[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m5.772632 [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0mcjikqv23ock9q [36mtrace_id=[0mr3m8pbmo6a1mmanbs051o0e24s
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tavuk göğsü" -> Normalized: "tavuk göğsü"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tavuk göğsü[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "köri" -> Normalized: "köri"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Köri[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "ayçiçek yağı" -> Normalized: "ayçiçek yağı"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Ayçiçek yağı[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "krema" -> Normalized: "krema"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Krema[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tuz" -> Normalized: "tuz"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tuz[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "karabiber" -> Normalized: "karabiber"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Karabiber[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m6.711693 [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0mlvfcv2mnepk4u [36mtrace_id=[0m5bv5u0nb27il0anbs051o0ecq4
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0mmnpn53hacc4sm [36mtrace_id=[0mdut8dmi94qbt7otalqtkaceobk
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "makarna" -> Normalized: "makarna"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Makarna[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tavuk göğsü" -> Normalized: "tavuk göğsü"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tavuk göğsü[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "köri" -> Normalized: "köri"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Köri[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "ayçiçek yağı" -> Normalized: "ayçiçek yağı"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Ayçiçek yağı[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "krema" -> Normalized: "krema"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Krema[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tuz" -> Normalized: "tuz"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tuz[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "karabiber" -> Normalized: "karabiber"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Karabiber[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m4.434143 [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0mmnpn53hacc4sm [36mtrace_id=[0mdut8dmi94qbt7otalqtkaceobk
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mu0q939emot77q [36mtrace_id=[0m8cq2rjp59knuuanbs051o0e3dc
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m74.026013 [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mu0q939emot77q [36mtrace_id=[0m8cq2rjp59knuuanbs051o0e3dc
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mhe6m6mmnc7q46 [36mtrace_id=[0m6vimjmmmqlifibrg6auaka1sa8
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m59.698909 [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0mhe6m6mmnc7q46 [36mtrace_id=[0m6vimjmmmqlifibrg6auaka1sa8
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetOrCreateUser [36minstance_id=[0m1917dd [36mservice=[0midentity [36mspan_id=[0mbvc55tnsc24ti [36mtrace_id=[0mgqnkf4o8hsndkb4kgdslckvod8
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m66.636232 [36mendpoint=[0mgetOrCreateUser [36minstance_id=[0m1917dd [36mservice=[0midentity [36mspan_id=[0mbvc55tnsc24ti [36mtrace_id=[0mgqnkf4o8hsndkb4kgdslckvod8
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mupdateRecipe [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0m575hv8vd0bos2 [36mtrace_id=[0mdjfid35te44f0brg6auaka1qag
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m54.340087 [36mendpoint=[0mupdateRecipe [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0m575hv8vd0bos2 [36mtrace_id=[0mdjfid35te44f0brg6auaka1qag
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0m9l9ecgleho0gi [36mtrace_id=[0m4n0f17ss2r8vobrg6auaka1li0
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m52.158743 [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0m9l9ecgleho0gi [36mtrace_id=[0m4n0f17ss2r8vobrg6auaka1li0
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0m9q4srkoj4mtas [36mtrace_id=[0m0nptlt5o04jlab4kgdslckvq30
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0m9qhk3fcoumb8m [36mtrace_id=[0m2vd572s9493vub4kgdslckvq0k
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "makarna" -> Normalized: "makarna"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Makarna[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tavuk göğsü" -> Normalized: "tavuk göğsü"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tavuk göğsü[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "köri" -> Normalized: "köri"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0m36nvqqfhtrk08 [36mtrace_id=[0mvo27vd51viobeb4kgdslckvt7g
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Köri[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "ayçiçek yağı" -> Normalized: "ayçiçek yağı"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Ayçiçek yağı[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "krema" -> Normalized: "krema"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Krema[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tuz" -> Normalized: "tuz"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tuz[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "karabiber" -> Normalized: "karabiber"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Karabiber[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m4.02215 [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0m9qhk3fcoumb8m [36mtrace_id=[0m2vd572s9493vub4kgdslckvq0k
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "makarna" -> Normalized: "makarna"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Makarna[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tavuk göğsü" -> Normalized: "tavuk göğsü"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tavuk göğsü[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "köri" -> Normalized: "köri"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Köri[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "ayçiçek yağı" -> Normalized: "ayçiçek yağı"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Ayçiçek yağı[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "krema" -> Normalized: "krema"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Krema[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tuz" -> Normalized: "tuz"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tuz[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "karabiber" -> Normalized: "karabiber"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Karabiber[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m5.862797 [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0m36nvqqfhtrk08 [36mtrace_id=[0mvo27vd51viobeb4kgdslckvt7g
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m67.943344 [36mendpoint=[0mgetRecipeById [36minstance_id=[0m1917dd [36mservice=[0mrecipe [36mspan_id=[0m9q4srkoj4mtas [36mtrace_id=[0m0nptlt5o04jlab4kgdslckvq30
+[90m1:30PM[0m [32mINF[0m [1mstarting request[0m [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0m2gdkct86l9glk [36mtrace_id=[0mdf6h0l6g6vo9abrg6auaka1s70
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "makarna" -> Normalized: "makarna"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Makarna[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tavuk göğsü" -> Normalized: "tavuk göğsü"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tavuk göğsü[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "köri" -> Normalized: "köri"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Köri[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "ayçiçek yağı" -> Normalized: "ayçiçek yağı"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Ayçiçek yağı[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "krema" -> Normalized: "krema"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Krema[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "tuz" -> Normalized: "tuz"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Tuz[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Searching for: "karabiber" -> Normalized: "karabiber"[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1m[Lookup] Exact match found: Karabiber[0m [36minstance_id=[0m1917dd
+[90m1:30PM[0m [32mINF[0m [1mrequest completed[0m [36mcode=[0mok [36mduration=[0m4.692794 [36mendpoint=[0mcalculateRecipeNutrition [36minstance_id=[0m1917dd [36mservice=[0mnutrition [36mspan_id=[0m2gdkct86l9glk [36mtrace_id=[0mdf6h0l6g6vo9abrg6auaka1s70

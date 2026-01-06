@@ -5929,7 +5929,10 @@ export const COMMON_INGREDIENTS: Ingredient[] = [
     "aliases_tr": [
       "ayçiçek yağı",
       "kızartma yağı",
-      "siviyag"
+      "siviyag",
+      "sıvı yağ",
+      "sıvıyağ",
+      "sivi yag"
     ],
     "category": "manual_added",
     "per_100g": {
@@ -5969,7 +5972,9 @@ export const COMMON_INGREDIENTS: Ingredient[] = [
     "name_tr": "Köri",
     "aliases_tr": [
       "kori",
-      "köri baharatı"
+      "köri baharatı",
+      "köri",
+      "curry"
     ],
     "category": "manual_added",
     "per_100g": {

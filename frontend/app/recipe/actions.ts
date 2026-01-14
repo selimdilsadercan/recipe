@@ -6,7 +6,7 @@
 
 import { createBrowserClient } from "@/lib/api";
 import { isUnauthenticatedError, getErrorMessage } from "@/lib/api-error-handler";
-import type { lib } from "@/lib/client";
+import type { lib, nutrition } from "@/lib/client";
 
 // Standardized response format
 interface ActionResponse<T> {
@@ -109,7 +109,7 @@ export async function deleteRecipeAction(
 export async function calculateNutritionAction(
   ingredients: { name: string; amount: string }[],
   servings: number = 1
-): Promise<ActionResponse<lib.CalculateNutritionResponse>> {
+): Promise<ActionResponse<nutrition.CalculateNutritionResponse>> {
   try {
     const client = createBrowserClient();
     

@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/popover";
 import { ConfirmModal } from "@/components/ConfirmModal";
 import type { lib } from "@/lib/client";
-import type { Ingredient, Instruction } from "@/lib/text-to-recipe";
 import { scaleAmount, getScaleFactor } from "@/lib/scale-ingredient";
 import { NutritionTable } from "@/components/NutritionTable";
 
@@ -137,8 +136,8 @@ function RecipeContent() {
     );
   }
 
-  const ingredients = (recipe.ingredients as Ingredient[]) || [];
-  const instructions = (recipe.instructions as Instruction[]) || [];
+  const ingredients = (recipe.ingredients as lib.Ingredient[]) || [];
+  const instructions = (recipe.instructions as lib.Instruction[]) || [];
 
   return (
     <div className="min-h-screen bg-[#FAF9F7] flex flex-col font-sans mb-20">

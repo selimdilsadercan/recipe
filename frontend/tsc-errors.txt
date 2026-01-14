@@ -1,0 +1,3 @@
+﻿app/recipe/page.tsx(141,25): error TS2352: Conversion of type 'Instruction[] | null' to type 'Instruction[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type 'import("C:/Users/Lenovo/OneDrive/Masa\u00FCst\u00FC/recipe-1/frontend/lib/client").lib.Instruction[]' is not comparable to type 'import("C:/Users/Lenovo/OneDrive/Masa\u00FCst\u00FC/recipe-1/frontend/lib/text-to-recipe").Instruction[]'.
+    Property 'index' is missing in type 'import("C:/Users/Lenovo/OneDrive/Masa\u00FCst\u00FC/recipe-1/frontend/lib/client").lib.Instruction' but required in type 'import("C:/Users/Lenovo/OneDrive/Masa\u00FCst\u00FC/recipe-1/frontend/lib/text-to-recipe").Instruction'.

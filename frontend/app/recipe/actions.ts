@@ -130,3 +130,34 @@ export async function calculateNutritionAction(
     };
   }
 }
+
+/**
+ * Tarifi LLM ile ayrıştırır
+ */
+export async function parseRecipeAction(
+  text: string
+): Promise<ActionResponse<lib.ParsedRecipe>> {
+  try {
+    const client = createBrowserClient();
+    
+    const response = await client.recipe.parseRecipe({ text });
+    
+    if (response.error || !response.recipe) {
+      return {
+        data: null,
+        error: response.error || "Tarif ayrıştırılamadı"
+      };
+    }
+    
+    return {
+      data: response.recipe,
+      error: null
+    };
+  } catch (error) {
+    console.error("Failed to parse recipe:", error);
+    return {
+      data: null,
+      error: "Sunucu hatası oluştu"
+    };
+  }
+}

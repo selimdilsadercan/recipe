@@ -225,6 +225,17 @@ export namespace recipe {
         recipes: lib.RecipeSummary[]
     }
 
+    export interface ParseRecipeRequest {
+        text: string
+    }
+
+    export interface ParseRecipeResponse {
+        success: boolean
+        recipe: lib.ParsedRecipe | null
+        error?: lib.ParseError
+        errorMessage?: string
+    }
+
     export interface UpdateRecipeRequest {
         userId: string
         title: string
@@ -248,6 +259,7 @@ export namespace recipe {
             this.deleteRecipe = this.deleteRecipe.bind(this)
             this.getRecipeById = this.getRecipeById.bind(this)
             this.getUserRecipes = this.getUserRecipes.bind(this)
+            this.parseRecipe = this.parseRecipe.bind(this)
             this.updateRecipe = this.updateRecipe.bind(this)
         }
 
@@ -294,6 +306,12 @@ export namespace recipe {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/recipe/user/${encodeURIComponent(userId)}`)
             return await resp.json() as GetUserRecipesResponse
+        }
+
+        public async parseRecipe(params: ParseRecipeRequest): Promise<ParseRecipeResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("POST", `/recipe/parse`, JSON.stringify(params))
+            return await resp.json() as ParseRecipeResponse
         }
 
         /**
@@ -356,6 +374,23 @@ export namespace lib {
         copper: number
         manganese: number
         selenium: number
+    }
+
+    export type ParseError = "EMPTY_TEXT" | "NOT_A_RECIPE" | "INVALID_JSON" | "API_ERROR" | "RATE_LIMITED" | "UNKNOWN"
+
+    export interface ParsedRecipe {
+        title: string
+        servings?: number | null
+        "prep_time"?: number | null
+        "cook_time"?: number | null
+        ingredients: {
+            amount: string
+            name: string
+        }[]
+        instructions: {
+            step: number
+            text: string
+        }[]
     }
 
     export interface Recipe {

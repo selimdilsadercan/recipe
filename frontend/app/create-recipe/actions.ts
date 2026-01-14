@@ -127,3 +127,44 @@ export async function getOrCreateUserAction(
     };
   }
 }
+
+// ParsedRecipe type for LLM response
+interface ParsedRecipe {
+  title: string;
+  servings?: number | null;
+  prep_time?: number | null;
+  cook_time?: number | null;
+  ingredients: { amount: string; name: string }[];
+  instructions: { step: number; text: string }[];
+}
+
+/**
+ * Tarifi LLM ile ayrıştırır
+ */
+export async function parseRecipeAction(
+  text: string
+): Promise<ActionResponse<ParsedRecipe>> {
+  try {
+    const client = createBrowserClient();
+    
+    const response = await client.recipe.parseRecipe({ text });
+    
+    if (!response.success || !response.recipe) {
+      return {
+        data: null,
+        error: response.errorMessage || "Tarif ayrıştırılamadı"
+      };
+    }
+    
+    return {
+      data: response.recipe as ParsedRecipe,
+      error: null
+    };
+  } catch (error) {
+    console.error("Failed to parse recipe:", error);
+    return {
+      data: null,
+      error: "Sunucu hatası oluştu"
+    };
+  }
+}

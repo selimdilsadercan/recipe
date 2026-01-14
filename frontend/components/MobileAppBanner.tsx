@@ -5,7 +5,7 @@ import { Globe, X } from "@phosphor-icons/react";
 
 // App bilgileri - değiştirilecekse sadece burayı değiştir
 const APP_CONFIG = {
-  name: "RECIVERSE",
+  name: "Vepie",
   icon: "/app-icon.png", // public klasöründeki ikon
   playStoreUrl: null as string | null, // İleride eklenecek
   appStoreUrl: null as string | null, // İleride eklenecek

@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RECIVERSE - Recipe Manager",
+  title: "Vepie - Recipe Manager",
   description: "Your personal recipe manager",
 };
 

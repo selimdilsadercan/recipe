@@ -88,7 +88,7 @@ ${text}`;
       return {
         success: false,
         error: "NOT_A_RECIPE",
-        errorMessage: "Bu metin bir tarif içermiyor gibi görünüyor."
+        errorMessage: `Bu metin bir tarif içermiyor gibi görünüyor. [Debug: title=${parsed.title}, ingredients=${parsed.ingredients.length}, instructions=${parsed.instructions.length}, raw=${JSON.stringify(parsed).substring(0, 500)}]`
       };
     }
     

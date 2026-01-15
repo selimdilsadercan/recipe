@@ -34,15 +34,16 @@ interface ParseRecipeResponse {
 export const parseRecipe = api(
   { expose: true, method: "POST", path: "/recipe/parse" },
   async (req: ParseRecipeRequest): Promise<ParseRecipeResponse> => {
-    // Check rate limit
-    if (!checkRateLimit()) {
-      return { 
-        success: false,
-        recipe: null, 
-        error: "RATE_LIMITED",
-        errorMessage: "Çok fazla istek. Lütfen 1 dakika bekleyin."
-      };
-    }
+    // Rate limiting temporarily disabled for cloud environment
+    // TODO: Implement Redis-based rate limiting for production
+    // if (!checkRateLimit()) {
+    //   return { 
+    //     success: false,
+    //     recipe: null, 
+    //     error: "RATE_LIMITED",
+    //     errorMessage: "Çok fazla istek. Lütfen 1 dakika bekleyin."
+    //   };
+    // }
 
     // Validate input
     if (!req.text || req.text.trim().length === 0) {

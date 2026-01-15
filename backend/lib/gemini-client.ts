@@ -68,6 +68,9 @@ ${text}`;
     const response = await result.response;
     const responseText = response.text();
     
+    // Log what Gemini actually returned
+    console.log("Gemini Response:", responseText);
+    
     // With JSON mode, this should always be valid JSON
     const parsed = JSON.parse(responseText) as ParsedRecipe;
     

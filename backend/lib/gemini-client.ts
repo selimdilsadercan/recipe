@@ -72,7 +72,15 @@ ${text}`;
     console.log("Gemini Response:", responseText);
     
     // With JSON mode, this should always be valid JSON
-    const parsed = JSON.parse(responseText) as ParsedRecipe;
+    let parsedRaw = JSON.parse(responseText);
+    
+    // Handle array response (Gemini sometimes returns an array)
+    let parsed: ParsedRecipe;
+    if (Array.isArray(parsedRaw)) {
+      parsed = parsedRaw[0] as ParsedRecipe;
+    } else {
+      parsed = parsedRaw as ParsedRecipe;
+    }
     
     // Validate basic structure
     if (!parsed.ingredients || !Array.isArray(parsed.ingredients)) {

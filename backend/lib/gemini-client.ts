@@ -92,14 +92,21 @@ ${text}`;
     return { success: true, recipe: parsed };
     
   } catch (error: any) {
-    console.error("Gemini Parse Error:", error);
+    // Log the FULL error details to see what's really happening
+    console.error("Gemini Parse Error - Full Details:", {
+      message: error.message,
+      name: error.name,
+      stack: error.stack,
+      cause: error.cause,
+      fullError: JSON.stringify(error, Object.getOwnPropertyNames(error))
+    });
     
     // Categorize errors for better user feedback
     if (error.message?.includes("quota") || error.message?.includes("rate")) {
       return {
         success: false,
         error: "RATE_LIMITED",
-        errorMessage: "Çok fazla istek gönderildi. Lütfen biraz bekleyin."
+        errorMessage: `Çok fazla istek gönderildi. Lütfen biraz bekleyin. [Debug: ${error.message}]`
       };
     }
     

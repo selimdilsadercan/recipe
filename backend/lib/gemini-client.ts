@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType, type ResponseSchema } from "@google/generative-ai";
 
 // Types
 export interface ParsedRecipe {
@@ -26,40 +26,76 @@ export interface ParseResult {
   errorMessage?: string;
 }
 
+// JSON Schema for structured output
+const recipeSchema: ResponseSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    title: { type: SchemaType.STRING, description: "Tarifin başlığı" },
+    servings: { type: SchemaType.INTEGER, nullable: true, description: "Kaç kişilik" },
+    prep_time: { type: SchemaType.INTEGER, nullable: true, description: "Hazırlık süresi (dakika)" },
+    cook_time: { type: SchemaType.INTEGER, nullable: true, description: "Pişirme süresi (dakika)" },
+    ingredients: {
+      type: SchemaType.ARRAY,
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          amount: { type: SchemaType.STRING, description: "Miktar" },
+          name: { type: SchemaType.STRING, description: "Malzeme adı" }
+        },
+        required: ["amount", "name"]
+      }
+    },
+    instructions: {
+      type: SchemaType.ARRAY,
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          step: { type: SchemaType.INTEGER, description: "Adım numarası" },
+          text: { type: SchemaType.STRING, description: "Adım açıklaması" }
+        },
+        required: ["step", "text"]
+      }
+    }
+  },
+  required: ["title", "ingredients", "instructions"]
+};
+
 export async function parseRecipeWithLLM(text: string, apiKey: string): Promise<ParseResult> {
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     
-    // Use JSON mode for guaranteed valid JSON output
+    // Use JSON mode with schema for guaranteed valid JSON output
     const model = genAI.getGenerativeModel({ 
       model: "gemini-2.0-flash",
       generationConfig: { 
-        responseMimeType: "application/json"
+        responseMimeType: "application/json",
+        responseSchema: recipeSchema
       }
     });
 
     const prompt = `Sen uzman bir şef ve veri analistisin. Aşağıdaki metni analiz et ve yapılandırılmış bir tarif formatına dönüştür.
 
-Aşağıdaki JSON şemasına UYGUN olarak döndür:
-
-{
-  "title": "string (tarif başlığı, bulunamazsa 'Adsız Tarif')",
-  "servings": "number veya null (kaç kişilik)",
-  "prep_time": "number veya null (hazırlık süresi dakika)",
-  "cook_time": "number veya null (pişirme süresi dakika)",
-  "ingredients": [
-    { "amount": "string (miktar, örn: '2 yemek kaşığı')", "name": "string (malzeme adı)" }
-  ],
-  "instructions": [
-    { "step": 1, "text": "string (adım açıklaması)" }
-  ]
-}
-
 KURALLAR:
-1. "amount" her zaman string olmalı. Miktar yoksa boş string "" kullan.
-2. "step" 1'den başlayarak numaralandır.
-3. Metin tarif değilse, title: "Geçersiz Metin" ve boş array'ler döndür.
-4. Türkçe karakterleri koru.
+
+1. MIKTAR FORMATLAMASI:
+   - Miktar belirtilmemişse "yeterince" yaz (örn: tuz, karabiber).
+   - Kesin dönüşümleri parantez içinde ekle:
+     * "yarım kilo" → "yarım kilo (500g)"
+     * "çeyrek kilo" → "çeyrek kilo (250g)"
+     * "1 kilo" → "1 kilo (1000g)"
+     * "yarım litre" → "yarım litre (500ml)"
+   - Belirsiz ölçüleri olduğu gibi bırak: "1 su bardağı", "2 yemek kaşığı" (dönüştürme yapma).
+
+2. ADIM SIRALAMASI:
+   - Adımları mutfak mantığına göre kronolojik sırala: hazırlık → pişirme → montaj → servis.
+   - Metindeki anlatım sırası farklı olsa bile, bir şefin yapacağı mantıksal sırayla düzenle.
+   - "step" 1'den başlayarak numaralandır.
+
+3. GEÇERSİZ METİN:
+   - Metin tarif değilse: title="Geçersiz Metin", ingredients=[], instructions=[]
+
+4. TÜRKÇE:
+   - Tüm Türkçe karakterleri koru: ç, ğ, ı, ö, ş, ü, Ç, Ğ, İ, Ö, Ş, Ü
 
 METİN:
 ${text}`;
@@ -68,8 +104,7 @@ ${text}`;
     const response = await result.response;
     const responseText = response.text();
     
-    // Log what Gemini actually returned
-    console.log("Gemini Response:", responseText);
+    // Parse response
     
     // With JSON mode, this should always be valid JSON
     let parsedRaw = JSON.parse(responseText);
@@ -96,7 +131,7 @@ ${text}`;
       return {
         success: false,
         error: "NOT_A_RECIPE",
-        errorMessage: `Bu metin bir tarif içermiyor gibi görünüyor. [Debug: title=${parsed.title}, ingredients=${parsed.ingredients.length}, instructions=${parsed.instructions.length}, raw=${JSON.stringify(parsed).substring(0, 500)}]`
+        errorMessage: "Bu metin bir tarif içermiyor gibi görünüyor."
       };
     }
     
@@ -117,7 +152,7 @@ ${text}`;
       return {
         success: false,
         error: "RATE_LIMITED",
-        errorMessage: `Çok fazla istek gönderildi. Lütfen biraz bekleyin. [Debug: ${error.message}]`
+        errorMessage: "Çok fazla istek gönderildi. Lütfen biraz bekleyin."
       };
     }
     

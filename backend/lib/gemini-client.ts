@@ -6,7 +6,12 @@ export interface ParsedRecipe {
   servings?: number | null;
   prep_time?: number | null;
   cook_time?: number | null;
-  ingredients: { amount: string; name: string }[];
+  ingredients: { 
+    amount: string; 
+    name: string;
+    name_normalized: string;  // Temel gıda adı (niteleyicisiz)
+    name_en: string;          // İngilizce karşılık (USDA için)
+  }[];
   instructions: { step: number; text: string }[];
 }
 
@@ -40,9 +45,11 @@ const recipeSchema: ResponseSchema = {
         type: SchemaType.OBJECT,
         properties: {
           amount: { type: SchemaType.STRING, description: "Miktar" },
-          name: { type: SchemaType.STRING, description: "Malzeme adı" }
+          name: { type: SchemaType.STRING, description: "Orijinal malzeme adı" },
+          name_normalized: { type: SchemaType.STRING, description: "Temel gıda adı (boyut/niteleyici olmadan)" },
+          name_en: { type: SchemaType.STRING, description: "İngilizce karşılığı (USDA araması için)" }
         },
-        required: ["amount", "name"]
+        required: ["amount", "name", "name_normalized", "name_en"]
       }
     },
     instructions: {
@@ -96,6 +103,21 @@ KURALLAR:
 
 4. TÜRKÇE:
    - Tüm Türkçe karakterleri koru: ç, ğ, ı, ö, ş, ü, Ç, Ğ, İ, Ö, Ş, Ü
+
+5. MALZEME NORMALİZASYONU (ÖNEMLİ):
+   Her malzeme için 4 alan doldur:
+   - name: Orijinal malzeme adı (metinde yazıldığı gibi)
+   - name_normalized: Boyut, niteleyici ve miktar ifadeleri KALDIRILMIŞ temel gıda adı
+     * "orta boy patlıcan" → "patlıcan"
+     * "yağsız dana kıyma" → "dana kıyma"
+     * "taze sıkılmış portakal suyu" → "portakal suyu"
+     * "közlenmiş kırmızı biber" → "kırmızı biber"
+   - name_en: USDA veritabanı için standart İngilizce karşılık
+     * "patlıcan" → "eggplant"
+     * "dana kıyma" → "ground beef"
+     * "domates salçası" → "tomato paste"
+     * "badem sütü" → "almond milk"
+     * "chia tohumu" → "chia seeds"
 
 METİN:
 ${text}`;

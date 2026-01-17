@@ -12,6 +12,8 @@ const usdaApiKey = secret("UsdaApiKey");
 // Request/Response tipleri
 interface IngredientInput {
   name: string;
+  name_normalized?: string;  // LLM tarafından normalize edilmiş ad
+  name_en?: string;          // İngilizce karşılık (USDA için)
   amount: string; // örn: "2 adet", "200g"
 }
 
@@ -55,15 +57,22 @@ export const calculateRecipeNutrition = api(
       // 1. Miktarı parse et
       const amountGrams = parseAmountToGrams(input.amount, input.name);
       
-      // 2. Besin değerlerini ara (JSON -> DB -> API), passing supabase client and USDA API key
+      // 2. USDA API key al (varsa)
       let apiKey: string | undefined;
       try {
         apiKey = usdaApiKey();
       } catch {
-        // USDA API key not set - skip API layer
         apiKey = undefined;
       }
-      const lookup = await lookupIngredient(input.name, supabase, apiKey);
+      
+      // 3. Besin değerlerini ara - önce name_normalized, sonra name_en ile fallback
+      const searchName = input.name_normalized || input.name;
+      let lookup = await lookupIngredient(searchName, supabase, apiKey);
+      
+      // Eğer bulunamadıysa ve name_en varsa, İngilizce ile USDA'da ara
+      if (!lookup.found && input.name_en && apiKey) {
+        lookup = await lookupIngredient(input.name_en, supabase, apiKey);
+      }
       
       let nutrients: NutrientData | null = null;
       

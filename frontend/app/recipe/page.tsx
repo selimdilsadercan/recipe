@@ -77,10 +77,20 @@ function RecipeContent() {
 
   // Calculate scaled ingredients for display and nutrition
   const nutritionIngredients = recipe?.ingredients?.map(ing => {
-    if (!currentServings || !recipe?.servings) return { name: ing.name, amount: ing.amount || "" };
+    if (!currentServings || !recipe?.servings) return { 
+      name: ing.name, 
+      amount: ing.amount || "",
+      name_normalized: (ing as any).name_normalized,
+      name_en: (ing as any).name_en
+    };
     const factor = getScaleFactor(currentServings, recipe.servings);
     const scaledAmount = scaleAmount(ing.amount || "", factor);
-    return { name: ing.name, amount: scaledAmount };
+    return { 
+      name: ing.name, 
+      amount: scaledAmount,
+      name_normalized: (ing as any).name_normalized,
+      name_en: (ing as any).name_en
+    };
   }) || [];
 
   async function handleDeleteRecipe() {

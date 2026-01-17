@@ -5,6 +5,8 @@ export interface Ingredient {
   name: string;
   amount?: string;
   unit?: string;
+  name_normalized?: string;  // LLM tarafından normalize edilmiş ad
+  name_en?: string;          // İngilizce karşılık (USDA için)
 }
 
 export interface Instruction {

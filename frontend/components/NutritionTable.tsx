@@ -15,7 +15,12 @@ import {
 import { cn } from "@/lib/utils";
 
 interface NutritionTableProps {
-  ingredients: { name: string; amount: string }[];
+  ingredients: { 
+    name: string; 
+    amount: string;
+    name_normalized?: string;
+    name_en?: string;
+  }[];
   servings: number;
   className?: string;
 }

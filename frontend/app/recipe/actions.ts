@@ -107,7 +107,7 @@ export async function deleteRecipeAction(
  * Tarifin besin değerlerini hesaplar
  */
 export async function calculateNutritionAction(
-  ingredients: { name: string; amount: string }[],
+  ingredients: { name: string; amount: string; name_normalized?: string; name_en?: string }[],
   servings: number = 1
 ): Promise<ActionResponse<nutrition.CalculateNutritionResponse>> {
   try {

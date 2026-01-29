@@ -60,10 +60,8 @@ function RecipeContent() {
       const result = await getRecipeByIdAction(recipeId);
       if (result.data) {
         setRecipe(result.data);
-        // Initialize currentServings with recipe's original servings
-        if (result.data.servings) {
-          setCurrentServings(result.data.servings);
-        }
+        // Initialize currentServings with recipe's original servings or default to 1
+        setCurrentServings(result.data.servings || 1);
       } else {
         setError(result.error || "Tarif bulunamadı");
       }

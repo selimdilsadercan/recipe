@@ -90,7 +90,7 @@ KURALLAR:
 // Using OpenAI-compatible vendor endpoint
 // Docs: https://mulerouter.ai/docs/api-reference/introduction
 const DEFAULT_BASE_URL = "https://api.mulerouter.ai/vendors/openai/v1";
-const DEFAULT_MODEL = "qwen3-flash"; // Qwen3 Flash model
+const DEFAULT_MODEL = "qwen-flash"; // Qwen3 Flash model
 
 export async function parseRecipeWithLLM(text: string, apiKey: string, baseUrl?: string): Promise<ParseResult> {
   const client = new OpenAI({

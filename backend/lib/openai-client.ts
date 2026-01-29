@@ -90,7 +90,7 @@ KURALLAR:
 // Endpoint: https://api.mulerouter.ai/v1
 // Model: Use Qwen model identifier from MuleRouter's catalog
 const DEFAULT_BASE_URL = "https://api.mulerouter.ai/v1";
-const DEFAULT_MODEL = "qwen/qwen3-235b-a22b"; // Adjust based on MuleRouter's available models
+const DEFAULT_MODEL = "qwen-flash"; // Adjust based on MuleRouter's available models
 
 export async function parseRecipeWithLLM(text: string, apiKey: string, baseUrl?: string): Promise<ParseResult> {
   const client = new OpenAI({

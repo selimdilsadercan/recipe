@@ -86,11 +86,11 @@ KURALLAR:
 }
 `;
 
-// Alibaba Cloud / Qwen Configuration
-// Endpoint: https://dashscope-intl.aliyuncs.com/compatible-mode/v1
-// Model ID: "qwen-flash" (or "qwen3-flash" if specifically available, defaulting to generic flash tier)
-const DEFAULT_BASE_URL = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1";
-const DEFAULT_MODEL = "qwen-flash"; // Maps to the latest Flash model in Qwen series
+// MuleRouter Configuration (mulerouter.ai)
+// Endpoint: https://api.mulerouter.ai/v1
+// Model: Use Qwen model identifier from MuleRouter's catalog
+const DEFAULT_BASE_URL = "https://api.mulerouter.ai/v1";
+const DEFAULT_MODEL = "qwen/qwen3-235b-a22b"; // Adjust based on MuleRouter's available models
 
 export async function parseRecipeWithLLM(text: string, apiKey: string, baseUrl?: string): Promise<ParseResult> {
   const client = new OpenAI({

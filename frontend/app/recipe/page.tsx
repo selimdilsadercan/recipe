@@ -260,7 +260,7 @@ function RecipeContent() {
             </div>
             
             {/* Serving Size Adjuster */}
-            {recipe.servings && currentServings && (
+            {currentServings && (
               <div className="flex items-center gap-2">
                 <div className="flex items-center border border-gray-300 rounded-full">
                   <button

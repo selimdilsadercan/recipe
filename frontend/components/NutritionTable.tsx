@@ -42,14 +42,18 @@ export function NutritionTable({ ingredients, servings, className }: NutritionTa
     try {
       setLoading(true);
       setError(null);
+      console.log("[NutritionTable] Fetching nutrition for ingredients:", ingredients);
       const result = await calculateNutritionAction(ingredients, servings);
+      console.log("[NutritionTable] API result:", result);
       
       if (result.data) {
         setData(result.data);
       } else {
+        console.error("[NutritionTable] No data returned, error:", result.error);
         setError("Hesaplama yapılamadı");
       }
     } catch (err) {
+      console.error("[NutritionTable] Exception:", err);
       setError("Bir hata oluştu");
     } finally {
       setLoading(false);

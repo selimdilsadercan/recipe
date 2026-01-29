@@ -20,6 +20,8 @@ interface ParsedIngredient {
   name: string;
   amount?: string;
   unit?: string;
+  name_normalized?: string;  // LLM tarafından normalize edilmiş ad
+  name_en?: string;          // İngilizce karşılık (USDA için)
 }
 
 interface ParsedInstruction {
@@ -35,7 +37,9 @@ function convertIngredient(ing: ParsedIngredient): lib.Ingredient {
   return {
     name: ing.name,
     amount: ing.amount,
-    unit: ing.unit
+    unit: ing.unit,
+    name_normalized: ing.name_normalized,  // USDA lookup için gerekli
+    name_en: ing.name_en                   // USDA lookup için gerekli
   };
 }
 
@@ -134,7 +138,12 @@ interface ParsedRecipe {
   servings?: number | null;
   prep_time?: number | null;
   cook_time?: number | null;
-  ingredients: { amount: string; name: string }[];
+  ingredients: { 
+    amount: string; 
+    name: string;
+    name_normalized?: string;  // LLM tarafından normalize edilmiş ad
+    name_en?: string;          // İngilizce karşılık (USDA için)
+  }[];
   instructions: { step: number; text: string }[];
 }
 

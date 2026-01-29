@@ -87,10 +87,10 @@ KURALLAR:
 `;
 
 // MuleRouter Configuration (mulerouter.ai)
-// Endpoint: https://api.mulerouter.ai/v1
-// Model: Use Qwen model identifier from MuleRouter's catalog
-const DEFAULT_BASE_URL = "https://api.mulerouter.ai/v1";
-const DEFAULT_MODEL = "qwen-flash"; // Adjust based on MuleRouter's available models
+// Using OpenAI-compatible vendor endpoint
+// Docs: https://mulerouter.ai/docs/api-reference/introduction
+const DEFAULT_BASE_URL = "https://api.mulerouter.ai/vendors/openai/v1";
+const DEFAULT_MODEL = "qwen3-flash"; // Qwen3 Flash model
 
 export async function parseRecipeWithLLM(text: string, apiKey: string, baseUrl?: string): Promise<ParseResult> {
   const client = new OpenAI({

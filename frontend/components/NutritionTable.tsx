@@ -213,17 +213,55 @@ export function NutritionTable({ ingredients, servings, className }: NutritionTa
 
         {/* Detailed Table (Collapsible) */}
         {showDetails && (
-          <div className="mt-4 border-t border-gray-100 pt-4 grid grid-cols-2 gap-x-8 gap-y-2 text-sm animate-in slide-in-from-top-2 duration-200">
-            <DetailRow label="Lif" value={displayData.fiber} unit="g" />
-            <DetailRow label="Şeker" value={displayData.sugar} unit="g" />
-            <DetailRow label="Kolesterol" value={displayData.cholesterol} unit="mg" />
-            <DetailRow label="Sodyum" value={displayData.sodium} unit="mg" />
-            <DetailRow label="Kalsiyum" value={displayData.calcium} unit="mg" />
-            <DetailRow label="Demir" value={displayData.iron} unit="mg" />
-            <DetailRow label="Potasyum" value={displayData.potassium} unit="mg" />
-            <DetailRow label="Vit C" value={displayData.vitamin_c} unit="mg" />
-            <DetailRow label="Vit A" value={displayData.vitamin_a} unit="IU" />
-            <DetailRow label="Vit D" value={displayData.vitamin_d} unit="IU" />
+          <div className="mt-4 border-t border-gray-100 pt-4">
+            {/* Micronutrients Grid */}
+            <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm mb-6">
+              <DetailRow label="Lif" value={displayData.fiber} unit="g" />
+              <DetailRow label="Şeker" value={displayData.sugar} unit="g" />
+              <DetailRow label="Kolesterol" value={displayData.cholesterol} unit="mg" />
+              <DetailRow label="Sodyum" value={displayData.sodium} unit="mg" />
+              <DetailRow label="Kalsiyum" value={displayData.calcium} unit="mg" />
+              <DetailRow label="Demir" value={displayData.iron} unit="mg" />
+              <DetailRow label="Potasyum" value={displayData.potassium} unit="mg" />
+              <DetailRow label="Vit C" value={displayData.vitamin_c} unit="mg" />
+              <DetailRow label="Vit A" value={displayData.vitamin_a} unit="IU" />
+              <DetailRow label="Vit D" value={displayData.vitamin_d} unit="IU" />
+            </div>
+
+            {/* Debug Table: Ingredient Matching Fidelity */}
+            <div className="bg-gray-50 rounded-lg p-3 overflow-hidden">
+               <h4 className="text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Malzeme Eşleşme Kontrolü</h4>
+               <div className="overflow-x-auto">
+                 <table className="w-full text-xs text-left">
+                   <thead className="text-gray-500 border-b border-gray-200">
+                     <tr>
+                       <th className="pb-1 font-medium">Orijinal</th>
+                       <th className="pb-1 font-medium">USDA Eşleşmesi</th>
+                       <th className="pb-1 font-medium text-right">Kalori</th>
+                     </tr>
+                   </thead>
+                   <tbody className="divide-y divide-gray-100">
+                     {data.ingredients.map((ing: nutrition.AnalyzedIngredient, idx: number) => (
+                       <tr key={idx} className={!ing.found ? "opacity-50" : ""}>
+                         <td className="py-1.5 pr-2 font-medium text-gray-800">{ing.original_name}</td>
+                         <td className="py-1.5 pr-2 text-gray-600">
+                           {ing.found ? (
+                             <span className={ing.confidence && ing.confidence < 0.8 ? "text-amber-600" : "text-green-700"}>
+                               {ing.matched_name}
+                             </span>
+                           ) : (
+                             <span className="text-red-500 italic">Bulunamadı</span>
+                           )}
+                         </td>
+                         <td className="py-1.5 text-right font-mono text-gray-700">
+                           {ing.found && ing.nutrients ? Math.round(ing.nutrients.calories) : "-"}
+                         </td>
+                       </tr>
+                     ))}
+                   </tbody>
+                 </table>
+               </div>
+            </div>
           </div>
         )}
       </div>

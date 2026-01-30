@@ -20,6 +20,7 @@ interface NutritionTableProps {
     amount: string;
     name_normalized?: string;
     name_en?: string;
+    amount_estimated_g?: number | null;
   }[];
   servings: number;
   className?: string;
@@ -236,6 +237,7 @@ export function NutritionTable({ ingredients, servings, className }: NutritionTa
                    <thead className="text-gray-500 border-b border-gray-200">
                      <tr>
                        <th className="pb-1 font-medium">Orijinal</th>
+                       <th className="pb-1 font-medium">Birim Analizi</th>
                        <th className="pb-1 font-medium">USDA Eşleşmesi</th>
                        <th className="pb-1 font-medium text-right">Kalori</th>
                      </tr>
@@ -244,6 +246,10 @@ export function NutritionTable({ ingredients, servings, className }: NutritionTa
                      {data.ingredients.map((ing: nutrition.AnalyzedIngredient, idx: number) => (
                        <tr key={idx} className={!ing.found ? "opacity-50" : ""}>
                          <td className="py-1.5 pr-2 font-medium text-gray-800">{ing.original_name}</td>
+                         <td className="py-1.5 pr-2 text-xs text-gray-500">
+                             {ing.amount_g ? `${ing.amount_g}g` : "-"}
+                             {ing.amount_str !== String(ing.amount_g) && <span className="opacity-50 ml-1">({ing.amount_str})</span>}
+                         </td>
                          <td className="py-1.5 pr-2 text-gray-600">
                            {ing.found ? (
                              <span className={ing.confidence && ing.confidence < 0.8 ? "text-amber-600" : "text-green-700"}>

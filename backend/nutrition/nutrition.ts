@@ -15,6 +15,7 @@ interface IngredientInput {
   name_normalized?: string;  // LLM tarafından normalize edilmiş ad
   name_en?: string;          // İngilizce karşılık (USDA için)
   amount: string; // örn: "2 adet", "200g"
+  amount_estimated_g?: number | null; // AI tarafından tahmin edilen gramaj
 }
 
 interface CalculateNutritionRequest {
@@ -54,8 +55,8 @@ export const calculateRecipeNutrition = api(
 
     // Her malzemeyi analiz et
     for (const input of req.ingredients) {
-      // 1. Miktarı parse et
-      const amountGrams = parseAmountToGrams(input.amount, input.name);
+      // 1. Miktarı parse et (AI tahmini varsa onu kullan, yoksa manuel parse dene)
+      const amountGrams = input.amount_estimated_g || parseAmountToGrams(input.amount, input.name);
       
       // 2. USDA API key al (varsa)
       let apiKey: string | undefined;

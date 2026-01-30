@@ -22,6 +22,7 @@ interface ParsedIngredient {
   unit?: string;
   name_normalized?: string;  // LLM tarafından normalize edilmiş ad
   name_en?: string;          // İngilizce karşılık (USDA için)
+  amount_estimated_g?: number | null; // Tahmini gramaj
 }
 
 interface ParsedInstruction {
@@ -33,20 +34,21 @@ interface ParsedInstruction {
 /**
  * text-to-recipe ingredient'i client lib formatına dönüştürür
  */
-function convertIngredient(ing: ParsedIngredient): lib.Ingredient {
+function convertIngredient(ing: ParsedIngredient) {
   return {
     name: ing.name,
     amount: ing.amount,
     unit: ing.unit,
     name_normalized: ing.name_normalized,  // USDA lookup için gerekli
-    name_en: ing.name_en                   // USDA lookup için gerekli
+    name_en: ing.name_en,                  // USDA lookup için gerekli
+    amount_estimated_g: ing.amount_estimated_g
   };
 }
 
 /**
  * text-to-recipe instruction'ı client lib formatına dönüştürür
  */
-function convertInstruction(inst: ParsedInstruction): lib.Instruction {
+function convertInstruction(inst: ParsedInstruction) {
   return {
     step: inst.step ?? inst.index ?? 1,
     text: inst.text
@@ -75,7 +77,7 @@ export async function createRecipe(
     const response = await client.recipe.createRecipe({
       title,
       userId,
-      ingredients: convertedIngredients,
+      ingredients: convertedIngredients as any,
       instructions: convertedInstructions,
       servings,
       prepTime,
@@ -143,6 +145,7 @@ interface ParsedRecipe {
     name: string;
     name_normalized?: string;  // LLM tarafından normalize edilmiş ad
     name_en?: string;          // İngilizce karşılık (USDA için)
+    amount_estimated_g?: number | null;
   }[];
   instructions: { step: number; text: string }[];
 }

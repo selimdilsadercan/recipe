@@ -7,6 +7,7 @@ export interface Ingredient {
   unit?: string;
   name_normalized?: string;  // LLM tarafından normalize edilmiş ad
   name_en?: string;          // İngilizce karşılık (USDA için)
+  amount_estimated_g?: number | null; // Tahmini gramaj
 }
 
 export interface Instruction {
